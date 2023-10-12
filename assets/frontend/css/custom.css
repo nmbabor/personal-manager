@@ -1,0 +1,69 @@
+.team_section .box{
+    margin-top: 0;
+}
+.featured-blog .blog-box{
+    transition: .5s;
+    box-shadow: 1px 1px 7px 3px #ddd;
+    padding: 5px;
+}
+.featured-blog:hover .blog-box{
+    box-shadow: 5px 5px 10px #8b8b8b;
+    transform: scale(1.01,1.01);
+}
+.featured-blog .text-box{
+   border-top: 1px solid #eee;
+   height: 180px;
+   position: relative;
+}
+.featured-blog .text-box p{
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    margin-left: -1rem;
+}
+.featured-blog .text-box a{
+    color: #000;
+}
+.featured-blog .text-box a.btn{
+    color: #fff;
+}
+.service_section .blog-box{
+    transition: .5s;
+}
+.service_section .blog-box:hover{
+    transform: scale(1.02,1.02);
+}
+.team_section .box .img-box img{height: 260px;}
+.nav-item{position: relative;}
+.sub-menu{
+    background: #343434;
+    padding: 0;
+    display: none;
+    position: absolute;
+}
+.sub-menu li{ list-style: none;white-space: nowrap;}
+.sub-menu li a{ display: block; padding: 10px; color: #fff;}
+.sub-menu li a:hover{background-color: #000;}
+.nav-item:hover .sub-menu{display: block;}
+.single-blog .blog-image img{
+    max-width: 100%;
+    border: 1px solid #eee;
+}
+.single-blog .blog-title{
+   font-size: 28px;
+   margin-top: 10px;
+}
+.single-blog .blog-description{
+   margin-top: 30px;
+   margin-bottom: 30px;
+}
+.single-blog .category-box{
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.single-blog .category-box .title{
+     border-bottom: 3px solid #f1db25;
+     padding-bottom: 10px;
+}
+.single-blog .category-box ul{ padding-left: 0px; }
+.single-blog .category-box ul li{ list-style: none; padding: 10px; border-bottom: 1px solid #ddd; }
