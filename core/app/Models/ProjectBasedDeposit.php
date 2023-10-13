@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,5 +26,14 @@ class ProjectBasedDeposit extends Model
 
     public function receivedByUser(){
         return $this->belongsTo(User::class,'received_by');
+    }
+
+    public function isEditable($minutes = 24)
+    {
+        $createdAt = Carbon::parse($this->created_at);
+        $currentTime = Carbon::now();
+        $timeDifference = $createdAt->diffInHours($currentTime);
+
+        return $timeDifference <= $minutes;
     }
 }

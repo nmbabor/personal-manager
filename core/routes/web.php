@@ -26,7 +26,6 @@ use App\Http\Controllers\Backend\WebsiteSettingController;
 
 // homepage
 Route::get('/','Frontend\HomeController@index')->name('frontend.home');
-Route::get('/link-check','Frontend\HomeController@linkCheck');
 Route::get('/blogs','Frontend\HomeController@blogs')->name('frontend.blogs');
 Route::get('/blogs/{category}','Frontend\HomeController@blogCategory')->name('frontend.blogs.category');
 Route::get('/blog/{slug}','Frontend\HomeController@singleBlog')->name('frontend.blog.show');
@@ -66,6 +65,14 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('backend.admin.dashboard');
 
     Route::resource('text-slider','Backend\TextSliderController');
+    Route::resource('projects','Backend\ProjectController');
+    Route::post('project-collection','Backend\ProjectController@paymentStore')->name('projects.collection');
+    Route::put('project-collection/{id}','Backend\ProjectController@paymentUpdate')->name('projects.collection.update');
+    Route::delete('project-collection/{id}','Backend\ProjectController@paymentDelete')->name('projects.collection.delete');
+    
+    Route::post('project-expense','Backend\ProjectController@expenseStore')->name('projects.expense');
+    Route::put('project-expense/{id}','Backend\ProjectController@expenseUpdate')->name('projects.expense.update');
+    Route::delete('project-expense/{id}','Backend\ProjectController@expenseDelete')->name('projects.expense.delete');
     // page builder
     Route::resource('page-builder','Backend\PageController');
 
@@ -73,7 +80,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::prefix('deposit')->group(function () {
         Route::get('user-details/{id}',[DepositController::class, 'show'])->name('deposit.user-details');
         Route::post('monthly',[DepositController::class, 'monthlyDeposit'])->name('deposit.monthly');
-        Route::post('monthly',[DepositController::class, 'monthlyDeposit'])->name('deposit.monthly');
+        Route::put('monthly/{id}',[DepositController::class, 'monthlyDepositUpdate'])->name('deposit.monthly.update');
         Route::delete('monthly-delete/{id}', [DepositController::class, 'destroy'])->name('deposit.monthly.delete');
     });
     Route::prefix('users')->group(function () {

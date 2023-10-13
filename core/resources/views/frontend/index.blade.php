@@ -82,37 +82,6 @@
 
 <!-- service section -->
 
-<section class="service_section layout_padding">
-    <div class="container">
-        <div class="heading_container heading_center">
-            <h2>
-                Pricing plans
-            </h2>
-        </div>
-        <div class="row">
-            @foreach($plans as $plan)
-            <div class="col-md-4">
-                <div class="box ">
-                    <div class="detail-box mt-0">
-                        <h2>
-                            <span class="badge badge-info"> <i class="fa fa-usd"></i> </span>
-                        </h2>
-                        <h6> {{$plan->title}} </h6>
-                        <p><b> <span class="currency-symbol">{{$plan->currency == 'bdt' ? '৳' : '$'}} </span> {{ $plan->price }} </b></p>
-                        <ul class="list-group">
-                            <li class="list-group-item"> {{$plan->credits}} Credits </li>
-                            <li class="list-group-item">{{$plan->link_submit}} Links Submit</li>
-                            <li class="list-group-item">Unlimited time</li>
-                        </ul>
-                        <a href="{{route('user.checkout',$plan->id)}}"> Purchase </a>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
 
 <section class="team_section layout_padding">
     <div class="container">

@@ -1,6 +1,12 @@
 @extends('backend.master')
 
 @section('title', 'Deposit')
+@section('title_button')
+    <a href="{{ route('backend.admin.users') }}" class="btn bg-gradient-primary" >
+        <i class="fas fa-list"></i>
+        View All Members
+    </a>
+@endsection
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -141,7 +147,7 @@
                                         <div class="modal fade" id="editCategory-{{ $data->id }}" tabindex="-1"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
-                                                {!! Form::open(['method' => 'put', 'route' => ['text-slider.update', $data->id]]) !!}
+                                                {!! Form::open(['method' => 'put', 'route' => ['deposit.monthly.update', $data->id]]) !!}
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title fs-5" id="exampleModalLabel">
@@ -168,21 +174,21 @@
                                                             
                                                             <label class="col-md-12"> Payment Gateway : </label>
                                                             <div class="col-md-12">
-                                                                {!! Form::select('payment_gateway', paymentGateway(), 'bkash', ['class' => 'form-control', 'required']) !!}
+                                                                {!! Form::select('payment_gateway', paymentGateway(), $data->payment_gateway, ['class' => 'form-control', 'required']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-md-12"> Reference Note : </label>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control" placeholder="TrxID/Last 3 Digit"
-                                                                    name="reference_no">
+                                                                    name="reference_no" value="{{$data->reference_no}}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-md-12"> Payment Date : </label>
                                                             <div class="col-md-12">
                                                                 <input type="text" class="form-control singleDatePicker" placeholder="Date"
-                                                                    name="payment_date" value="{{ date('d-m-Y') }}">
+                                                                    name="payment_date" value="{{ date('d-m-Y',strtotime($data->payment_date)) }}">
                                                             </div>
                                                         </div>
                             
@@ -190,7 +196,7 @@
                                                             <label class="col-md-12">Description : </label>
                                                             <div class="col-md-12">
                                                                 <textarea class="form-control" placeholder="Description" name="note"></textarea>
-                                                                <label><input type="checkbox" class="mt-2" name="special_consider"> Special
+                                                                <label><input type="checkbox" class="mt-2" name="special_consider" @if($data->paid_amount == 0) checked @endif > Special
                                                                     Consideration </label>
                                                             </div>
                                                             

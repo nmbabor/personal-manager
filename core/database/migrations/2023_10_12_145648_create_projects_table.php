@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->longText('details');
+            $table->longText('details')->nualable();
             $table->string('address');
             $table->string('reference');
             $table->tinyInteger('status')->default(2)->comment('1 = Complete, 2 = Pending, 0 = Rejected');

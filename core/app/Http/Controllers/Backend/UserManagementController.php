@@ -6,9 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\ValidImageType;
 use Yajra\DataTables\DataTables;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ImageHandlerController;
 use App\Models\Country;
 
 class UserManagementController extends Controller
@@ -16,7 +14,7 @@ class UserManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('country')->latest();
+            $users = User::with('country')->where('type','User')->latest();
 
             return DataTables::of($users)
                 ->addIndexColumn()
@@ -67,7 +65,14 @@ class UserManagementController extends Controller
                         return '<span class="badge badge-pill badge-danger">Suspended</span>';
                     }
                 })
-                ->rawColumns(['thumb', 'created', 'action', 'suspend'])
+                ->addColumn('due', function ($data) {
+                    if(count($data->dueMonths())>0){
+                        return '<span class="badge badge-danger">'.count($data->dueMonths()).'</span>';
+                    }else{
+                        return "";
+                    }
+                })
+                ->rawColumns(['thumb', 'created', 'action', 'suspend','due'])
                 ->toJson();
         }
 

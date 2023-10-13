@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MonthlyDeposit;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DepositController extends Controller
 {
@@ -20,6 +21,7 @@ class DepositController extends Controller
         return view('backend.deposit.userDetails', compact('user', 'allData', 'dueMonthCount', 'totalDue'));
     }
 
+    
     public function monthlyDeposit(Request $request)
     {
         $request->validate([
@@ -55,7 +57,7 @@ class DepositController extends Controller
                     'reference_no' => $request->reference_no,
                     'note' => $request->note,
                     'payment_date' => date('Y-m-d', strtotime($request->payment_date)),
-                    'received_by' => \Auth::user()->id,
+                    'received_by' => Auth::user()->id,
                     'created_at' => now()
                 ];
                 if (isset($request->special_consider)) {
@@ -96,7 +98,7 @@ class DepositController extends Controller
                     'reference_no' => $request->reference_no,
                     'note' => $request->note,
                     'payment_date' => date('Y-m-d', strtotime($request->payment_date)),
-                    'received_by' => \Auth::user()->id,
+                    'received_by' => Auth::user()->id,
                     'created_at' => now()
                 ];
                 if (isset($request->special_consider)) {
@@ -116,6 +118,24 @@ class DepositController extends Controller
         }
     }
 
+    public function monthlyDepositUpdate(Request $request,$id){
+        $request->validate([
+            'payment_gateway' => 'required',
+            'payment_date' => 'required',
+        ]);
+        $payment = MonthlyDeposit::findOrFail($id);
+        $payment->update([
+            'payment_gateway' => $request->payment_gateway,
+            'payment_date' => date('Y-m-d',strtotime($request->payment_date)),
+            'reference_no' => $request->reference_no,
+            'note' => $request->note,
+        ]);
+        try {
+            return back()->with('success', 'Payment updated successfully');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
     public function destroy($id)
     {
 

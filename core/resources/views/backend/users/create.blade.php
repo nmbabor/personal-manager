@@ -40,7 +40,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="country_id" class="form-label">Country<span class="text-danger">*</span> :</label>
-                            {{Form::select('country_id',$country,'',['class'=>'form-control','placeholder'=>'Select Country', 'required'])}}
+                            {{Form::select('country_id',$country,'',['class'=>'form-control select2','placeholder'=>'Select Country', 'required'])}}
                         </div>
                     </div>
                     <div class="col-lg-6">

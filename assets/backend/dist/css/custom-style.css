@@ -109,3 +109,8 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-head
 .vertical-nav-tabs.nav-tabs.flex-column .nav-link.active{
     border-left: 4px solid #1586ff;
 }
+.select2-container--default .select2-selection--single{
+    border: 1px solid #ced4da;
+    padding: 0.46875rem 0.75rem;
+    height: calc(2.25rem + 2px);
+}

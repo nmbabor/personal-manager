@@ -1,8 +1,8 @@
 @extends('backend.master')
 
-@section('title', 'User Management')
+@section('title', 'Projects')
 @section('title_button')
-    <a href="{{ route('backend.admin.user.create') }}" class="btn bg-gradient-primary" >
+    <a href="{{ route('projects.create') }}" class="btn bg-primary" >
         <i class="fas fa-plus-circle"></i>
         Add New
     </a>
@@ -17,12 +17,11 @@
                             <thead>
                                 <tr>
                                     <th data-orderable="false">#</th>
-                                    <th>Name</th>
-                                    <th>Mobile</th>
-                                    <th>Country</th>
-                                    <th>Amount</th>
-                                    <th>Word</th>
-                                    <th>Due Month</th>
+                                    <th>Title</th>
+                                    <th>Address</th>
+                                    <th>Reference</th>
+                                    <th>Collection</th>
+                                    <th>Expense</th>
                                     <th>Status</th>
                                     <th data-orderable="false">
                                         Action
@@ -48,38 +47,35 @@
                     [1, 'asc']
                 ],
                 ajax: {
-                    url: "{{ route('backend.admin.users') }}"
+                    url: "{{ route('projects.index') }}"
                 },
 
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
                     }, {
-                        data: 'name',
-                        name: 'name'
+                        data: 'title',
+                        name: 'title'
                     },
                     {
-                        data: 'mobile_no',
-                        name: 'mobile_no'
+                        data: 'address',
+                        name: 'address'
                     },
                     {
-                        data: 'country_name',
-                        name: 'country.name'
+                        data: 'reference',
+                        name: 'reference'
                     },
                     {
-                        data: 'monthly_amount',
-                        name: 'monthly_amount'
+                        data: 'total_income',
+                        name: 'total_income'
                     },
                     {
-                        data: 'word_no',
-                        name: 'word_no'
+                        data: 'total_expense',
+                        name: 'total_expense'
                     },
+                    
                     {
-                        data: 'due',
-                        name: 'due'
-                    },
-                     {
-                        data: 'suspend',
+                        data: 'status',
                         name: 'status'
                     },
                     {
