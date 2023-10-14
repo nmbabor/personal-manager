@@ -11,7 +11,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','slug','details','address','reference','status'];
+    protected $fillable = ['title','slug','details','address','reference','completed_date','status'];
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];

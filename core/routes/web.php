@@ -76,13 +76,22 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     // page builder
     Route::resource('page-builder','Backend\PageController');
 
-    // user management
+    // Reports
+    Route::prefix('reports')->group(function () {
+        Route::get('due','Backend\ReportsController@due')->name('reports.due');
+        Route::get('projects','Backend\ReportsController@projects')->name('reports.projects');
+        Route::get('monthly-collection','Backend\ReportsController@monthlyCollection')->name('reports.monthly-collection');
+        Route::get('income-expense','Backend\ReportsController@incomeExpense')->name('reports.income-expense');
+        Route::post('close-year','Backend\ReportsController@closeYear')->name('reports.close-year');
+    });
+     // Deposit
     Route::prefix('deposit')->group(function () {
         Route::get('user-details/{id}',[DepositController::class, 'show'])->name('deposit.user-details');
         Route::post('monthly',[DepositController::class, 'monthlyDeposit'])->name('deposit.monthly');
         Route::put('monthly/{id}',[DepositController::class, 'monthlyDepositUpdate'])->name('deposit.monthly.update');
         Route::delete('monthly-delete/{id}', [DepositController::class, 'destroy'])->name('deposit.monthly.delete');
     });
+    // users
     Route::prefix('users')->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('backend.admin.users');
         Route::get('suspend/{id}/{status}', [UserManagementController::class, 'suspend'])->name('backend.admin.user.suspend');

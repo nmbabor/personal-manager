@@ -11,6 +11,52 @@ function paymentGateway()
 {
     return ['cash'=>'Cash','bkash'=>'bKash','nagad'=>'Nagad','rocket'=>'Rocket','bank'=>'Bank'];
 }
+function years()
+{
+    $currentYear = date('Y');
+    $yearsArray = [];
+
+    for ($year = 2021; $year <= $currentYear; $year++) {
+        $yearsArray[$year] = $year;
+    }
+    return $yearsArray;
+}
+function months($isFull = 0)
+{
+    $monthsArray = [
+        1 => 'January',
+        2 => 'February',
+        3 => 'March',
+        4 => 'April',
+        5 => 'May',
+        6 => 'June',
+        7 => 'July',
+        8 => 'August',
+        9 => 'September',
+        10 => 'October',
+        11 => 'November',
+        12 => 'December'
+    ];
+    $monthsShort = [
+        1 => 'Jan',
+        2 => 'Feb',
+        3 => 'Mar',
+        4 => 'Apr',
+        5 => 'May',
+        6 => 'Jun',
+        7 => 'Jul',
+        8 => 'Aug',
+        9 => 'Sep',
+        10 => 'Oct',
+        11 => 'Nov',
+        12 => 'Dec'
+    ];
+    if($isFull){
+        return $monthsArray;
+    }else{
+        return $monthsShort;
+    }
+}
 
 function menuActive($data)
 {

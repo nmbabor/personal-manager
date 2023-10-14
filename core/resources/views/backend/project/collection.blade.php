@@ -102,14 +102,37 @@
                             <td>{{ $project->reference }} </td>
                         </tr>
                         <tr>
+                            <th class="text-right">Status:</th>
+                            <td>
+                                @if ($project->status == 1)
+                                    <span class="badge badge-success" title="Completed"> <i class="fa fa-check"></i> Completed
+                                    </span>
+                                @elseif($project->status == 0)
+                                    <span class="badge badge-danger" title="Rejected"> <i class="fa fa-times"></i> Rejected
+                                    </span>
+                                @else
+                                    <span class="badge badge-warning" title="Pending"> Pending </span>
+                                @endif
+                            </td>
+                        </tr>
+                        @if ($project->status == 1)
+                        <tr>
+                            <th class="text-right">Completed Date:</th>
+                            <td>{{ date('d-m-Y',strtotime($project->completed_date)) }} </td>
+                        </tr>
+                        @endif
+                        <tr>
                             <th class="text-right"> Details: </th>
                             <td>{{ $project->details }} </td>
                         </tr>
                     </table>
                     {{-- Project Expense Start --}}
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#projectExpense">
-                        <i class="fa fa-plus-circle"></i> Project Expense
-                    </button>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#projectExpense">
+                            <i class="fa fa-plus-circle"></i> Project Expense
+                        </button>
+                    </div>
+                    
                     <div class="modal fade" id="projectExpense">
                         <div class="modal-dialog">
                             <div class="modal-content">

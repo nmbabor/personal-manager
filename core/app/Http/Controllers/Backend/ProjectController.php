@@ -8,7 +8,9 @@ use App\Models\ProjectBasedDeposit;
 use App\Models\ProjectBasedExpense;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -79,7 +81,7 @@ class ProjectController extends Controller
         ]);
         try {
             $input = $request->except('_token');
-            $input['slug'] = \Str::slug($request->title);
+            $input['slug'] = Str::slug($request->title);
             Project::create($input);
             return back()->with('success', 'Data created successfully');
         } catch (\Exception $e) {
@@ -111,7 +113,7 @@ class ProjectController extends Controller
         try {
             $data = Project::findOrFail($id);
             $input = $request->except(['_token', '_method']);
-            $input['slug'] = \Str::slug($request->title);
+            $input['slug'] = Str::slug($request->title);
 
             $data->update($input);
             return back()->with('success', 'Data updated successfully');
@@ -148,7 +150,7 @@ class ProjectController extends Controller
         try {
             $input = $request->except('_token');
             $input['payment_date'] = date('Y-m-d', strtotime($request->payment_date));
-            $input['received_by'] = \Auth::user()->id;
+            $input['received_by'] = Auth::user()->id;
 
             ProjectBasedDeposit::create($input);
             return back()->with('success', 'Paymant submited successfully');
@@ -197,9 +199,18 @@ class ProjectController extends Controller
         ]);
 
         try {
+            $project =Project::findOrFail($request->project_id);
             $input = $request->except('_token');
             $input['payment_date'] = date('Y-m-d', strtotime($request->payment_date));
-            $input['paid_by'] = \Auth::user()->id;
+            $input['paid_by'] = Auth::user()->id;
+
+            $oldExpenseCount = ProjectBasedExpense::where('project_id',$request->project_id)->count();
+            if($oldExpenseCount == 0){
+                $project->update([
+                    'completed_date' => $input['payment_date'],
+                    'status' => 1
+                ]);
+            }
 
             ProjectBasedExpense::create($input);
             return back()->with('success', 'Expense submited successfully');

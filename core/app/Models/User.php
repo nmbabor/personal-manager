@@ -71,6 +71,18 @@ class User extends Authenticatable
     public function payments(){
         return $this->hasMany(MonthlyDeposit::class, 'user_id');
     }
+    public function payment($year,$month, $coll = false){
+        $amount = MonthlyDeposit::where('user_id',$this->id);
+        if($coll){
+            $amount =  $amount->whereYear('payment_date',$year)->whereMonth('payment_date',$month)->sum('paid_amount');
+        }else{
+            $amount =  $amount->where([
+                'payment_month' => $month,
+                'payment_year' => $year,
+            ])->value('paid_amount');
+        }
+        return $amount;
+    }
 
     public function dueMonths()
     {

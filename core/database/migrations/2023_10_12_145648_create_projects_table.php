@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->longText('details')->nualable();
-            $table->string('address');
-            $table->string('reference');
+            $table->string('address')->nualable();
+            $table->string('reference')->nualable();
+            $table->date('completed_date');
             $table->tinyInteger('status')->default(2)->comment('1 = Complete, 2 = Pending, 0 = Rejected');
             $table->softDeletes();
             $table->timestamps();
