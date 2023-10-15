@@ -146,11 +146,11 @@
                     <i class="fas fa-address-card"></i>
                     Profile
                 </a>
-                <div class="dropdown-divider"></div>
+                {{-- <div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item dropdown-footer">
                     <i class="fas fa-bars"></i>
                     Transections
-                </a>
+                </a> --}}
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" class="dropdown-item dropdown-footer">
                     <i class="fas fa-sign-out-alt"></i>

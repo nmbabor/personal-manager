@@ -43,8 +43,8 @@
                                 <div class="form-group">
                                     <label for="password" class="form-label">Current password</label>
                                     <input type="password" class="form-control" id="password"
-                                        placeholder="Enter your password" name="current_password"
-                                        autocomplete="new-password">
+                                        placeholder="Enter your password" value="" name="current_password"
+                                        autocomplete="off">
                                 </div>
                             </div>
                             @endif
@@ -52,14 +52,14 @@
                                 <div class="form-group">
                                     <label for="newPassword" class="form-label">New Password</label>
                                     <input type="password" class="form-control" id="newPassword"
-                                        placeholder="Password" name="password">
+                                        placeholder="Password" name="password" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="confirmPassword" class="form-label">Confirm password</label>
                                     <input type="password" class="form-control" id="confirmPassword"
-                                        placeholder="Confirm password" name="password_confirmation">
+                                        placeholder="Confirm password" name="password_confirmation" autocomplete="off">
                                 </div>
                             </div>
                         </div>

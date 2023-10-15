@@ -11,8 +11,8 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>0</h3>
-                            <p>Today Submited Links</p>
+                            <h3>{{$projects}}</h3>
+                            <p>Total Completed Projects</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -28,8 +28,8 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>0</h3>
-                            <p>Total Submited Links</p>
+                            <h3>৳ {{ number_format($collection)}}</h3>
+                            <p>{{date('M, Y')}} Collections</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
@@ -45,8 +45,8 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>{{ $totalUser}}</h3>
-                            <p>Total Users</p>
+                            <h3>{{ count($users)}}</h3>
+                            <p>Total Active Users</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
@@ -62,13 +62,13 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>BDT 0</h3>
-                            <p>Today Transections Amount</p>
+                            <h3>৳ {{ number_format($expense)}}</h3>
+                            <p>Total Expense Amount</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="{#" class="small-box-footer">
+                        <a href="#" class="small-box-footer">
                             More info
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
@@ -86,7 +86,7 @@
                     <!-- TABLE: LATEST ORDERS -->
                     <div class="card">
                         <div class="card-header border-transparent">
-                            <h3 class="card-title">Latest Transections</h3>
+                            <h3 class="card-title">Members Due Amount</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -100,46 +100,45 @@
                         <!-- /.card-header -->
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table m-0">
+                                <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Invoice</th>
-                                            <th>Plan</th>
+                                            <th width="2%">#</th>
+                                            <th>Member Name</th>
+                                            <th>Country</th>
+                                            <th>Mobile No</th>
                                             <th>Amount</th>
-                                            <th>User</th>
-                                            <th>Method</th>
-                                            <th>Status</th>
-                                            <th>Created At</th>
+                                            <th>Due Month</th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       {{--  @foreach($recentOrders as $order)
-                                        <tr>
-                                            <td><a href="{{route('admin.transections.show',$order->id)}}">{{$order->invoice_no}}</a></td>
-                                            <td>{{$order->plan->title ?? ''}}</td>
-                                            <td>{{$order->total_amount}}</td>
-                                            <td>{{$order->user->email ??''}}</td>
-                                            <td>{{$order->payment_method}}</td>
-                                            <td>
-                                                @if($order->is_paid == 1)
-                                                    <span class="badge badge-success"> Paid</span>
-                                                @else 
-                                                    <span class='badge bg-warning'>Pending</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                {{date('d M, Y', strtotime($order->created_at))}}
-                                            </td>
-                                        </tr>
-                                        @endforeach --}}
+                                        @php $i = 0; @endphp
+                                        @foreach ($users as $user)
+                                            @if (count($user->dueMonths()) > 0)
+                                                @php $i++; @endphp
+                                                <tr>
+                                                    <td>{{ $i }}</td>
+                                                    <td @if (count($user->dueMonths()) > 3) class="text-danger" @endif>{{ $user->name }}</td>
+                                                    <td>{{ $user->country->name ?? '' }}</td>
+                                                    <td>{{ $user->mobile_no }}</td>
+                                                    <td>{{ $user->monthly_amount }}</td>
+                                                    <td>
+                                                        ({{count($user->dueMonths())}})
+                                                        @foreach ($user->dueMonths() as $due)
+                                                            <span class="badge badge-danger"> {{ date('M, Y', strtotime($due)) }} </span>
+                                                        @endforeach
+                                                    </td>
+                                                    <td><a href="{{ route('deposit.user-details', $user->id) }}" class="btn btn-info"> <i
+                                                                class="fa fa-eye"></i> </a> </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+            
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer clearfix">
-                            <a href="#" class="btn btn-sm btn-secondary float-right">View All Transections</a>
                         </div>
                         <!-- /.card-footer -->
                     </div>

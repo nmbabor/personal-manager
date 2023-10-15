@@ -24,8 +24,11 @@ use App\Http\Controllers\Backend\WebsiteSettingController;
 
 // ====================== FRONTEND ======================
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('frontend.home');
+});
 // homepage
-Route::get('/','Frontend\HomeController@index')->name('frontend.home');
+//Route::get('/','Frontend\HomeController@index')->name('frontend.home');
 Route::get('/blogs','Frontend\HomeController@blogs')->name('frontend.blogs');
 Route::get('/blogs/{category}','Frontend\HomeController@blogCategory')->name('frontend.blogs.category');
 Route::get('/blog/{slug}','Frontend\HomeController@singleBlog')->name('frontend.blog.show');
@@ -55,7 +58,7 @@ Route::get('user/auth-check', [AuthController::class, 'userAuthCheck'])->name('u
 
 // admin
 Route::prefix('user')->middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->name('user.dashboard');
+    //Route::get('/dashboard', [DashboardController::class, 'userDashboard'])->name('user.dashboard');
     //profile
     Route::get('profile', [DashboardController::class, 'profile'])->name('user.profile');
     Route::post('update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');

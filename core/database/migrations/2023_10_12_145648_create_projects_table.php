@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('details')->nualable();
             $table->string('address')->nualable();
             $table->string('reference')->nualable();
-            $table->date('completed_date');
+            $table->date('completed_date')->nullable();
             $table->tinyInteger('status')->default(2)->comment('1 = Complete, 2 = Pending, 0 = Rejected');
             $table->softDeletes();
             $table->timestamps();

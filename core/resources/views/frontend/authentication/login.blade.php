@@ -8,7 +8,7 @@
         @csrf
         <div class="authentication-form-header text-center">
             <a href="{{ route('frontend.home') }}" class="logo">
-                <img src="{{ imageRecover(readconfig('site_logo')) }}" alt="{{ readconfig('site_name') }}" width="200px"
+                <img src="{{ imageRecover(readconfig('site_logo')) }}" alt="{{ readconfig('site_name') }}" height="65px"
                     style="margin:0 auto;">
             </a>
             <h3 class="form-title">Sign in</h3>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-lg-12 col-xl-12 mt-2">
+                <div class="col-sm-12 col-lg-12 col-xl-12 mt-2 d-none">
                     <div class="form-group">
                         <a href="{{ route('auth.google') }}" class="google-btn w-100">
                             <span class="icon">
@@ -142,7 +142,7 @@
                 </div>
             </div>
         </div>
-        <div class="authentication-form-footer">
+        <div class="authentication-form-footer d-none">
             <p>Don’t have an account? <a href="{{ route('signup') }}">Sign up </a></p>
         </div>
     </form>

@@ -28,7 +28,7 @@
             <div class="text-center">
                 <h1> Welcome to <b>{{readConfig('site_name')}}</b> </h1>
                 <h4>{{readConfig('sub_title')}}</h4>
-                <img class="img-responsive" src="{{ asset('assets/images/password.png') }}" alt="Authentication">
+                <img class="img-responsive" src="{{ asset('assets/images/dupkt-logo.png') }}" alt="Authentication">
             </div>
         </div>
         <div class="right-content">

@@ -4,7 +4,7 @@
     <!-- Sidebar Menu -->
     <nav class="mt-1">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
+            <li class="nav-item d-none">
                 <a href="{{ url('/') }}" target="_blank" class="nav-link">
                     <i class="nav-icon fas fa-file"></i>
                     <p>
@@ -23,7 +23,7 @@
             </li>
             
             @if(auth()->user()->type== 'Admin')
-            <li class="nav-item">
+            <li class="nav-item d-none">
                 <a href="#" class="nav-link">
                     <i class="fab fa-blogger-b nav-icon"></i>
                     <p>
@@ -67,25 +67,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-credit-card nav-icon"></i>
-                    <p>
-                        Financial
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="#"
-                            class="nav-link {{ menuActive(['admin.transections','admin.transections.show']) ? 'active' : '' }}">
-                            <i class="fas fa-chevron-circle-right nav-icon"></i>
-                            <p>Transections</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
+            
+            <li class="nav-item d-none">
                 <a href="{{ route('page-builder.index') }}"
                     class="nav-link {{ menuActive('page-builder.*') ? 'active' : '' }}">
                     <i class="fas fa-file nav-icon"></i>
@@ -97,11 +80,59 @@
                     class="nav-link {{ menuActive('backend.admin.users') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
-                        User Management
+                        Members
                     </p>
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('projects.index') }}"
+                    class="nav-link {{ menuActive('projects.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-folder"></i>
+                    <p>
+                        Projects
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-credit-card nav-icon"></i>
+                    <p>
+                        Reports
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('reports.due')}}"
+                            class="nav-link {{ menuActive(['reports.due']) ? 'active' : '' }}">
+                            <i class="fas fa-chevron-circle-right nav-icon"></i>
+                            <p>Monthly Due</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('reports.projects')}}"
+                            class="nav-link {{ menuActive(['reports.projects']) ? 'active' : '' }}">
+                            <i class="fas fa-chevron-circle-right nav-icon"></i>
+                            <p>Project Reports</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('reports.monthly-collection')}}"
+                            class="nav-link {{ menuActive(['reports.monthly-collection']) ? 'active' : '' }}">
+                            <i class="fas fa-chevron-circle-right nav-icon"></i>
+                            <p>Monthly Collection</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('reports.income-expense')}}"
+                            class="nav-link {{ menuActive(['reports.income-expense']) ? 'active' : '' }}">
+                            <i class="fas fa-chevron-circle-right nav-icon"></i>
+                            <p>Yearly Reports</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item d-none">
                 <a href="#" class="nav-link">
                     <i class="fas fa-cog nav-icon"></i>
                     <p>

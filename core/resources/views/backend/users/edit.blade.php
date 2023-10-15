@@ -1,6 +1,6 @@
 @extends('backend.master')
 
-@section('title', 'Update User')
+@section('title', 'Update Member')
 @section('title_button')
     <a href="{{ route('backend.admin.user.create') }}" class="btn bg-gradient-primary" >
         <i class="fas fa-plus-circle"></i>
