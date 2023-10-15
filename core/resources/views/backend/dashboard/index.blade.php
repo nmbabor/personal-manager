@@ -17,9 +17,9 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
-                            More info
-                            <i class="fas fa-arrow-circle-right"></i>
+                        <a href="{{route('projects.create')}}" class="small-box-footer">
+                            <i class="fas fa-plus-circle"></i>
+                            Add new project
                         </a>
                     </div>
                 </div>
@@ -46,14 +46,14 @@
                     <div class="small-box bg-warning">
                         <div class="inner">
                             <h3>{{ count($users)}}</h3>
-                            <p>Total Active Users</p>
+                            <p>Total Active Member</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="{{route('backend.admin.users')}}" class="small-box-footer">
-                            More info
-                            <i class="fas fa-arrow-circle-right"></i>
+                        <a href="{{route('backend.admin.user.create')}}" class="small-box-footer">
+                            <i class="fas fa-plus-circle"></i>
+                            Add new member
                         </a>
                     </div>
                 </div>

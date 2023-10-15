@@ -1,4 +1,4 @@
-@extends('frontend.master')
+@extends('frontend.authentication.master')
 
 @section('title', 'Page not found')
 
