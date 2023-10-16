@@ -80,7 +80,7 @@
                     },
                      {
                         data: 'suspend',
-                        name: 'status'
+                        name: 'suspend'
                     },
                     {
                         data: 'action',

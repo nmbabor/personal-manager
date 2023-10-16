@@ -14,7 +14,7 @@ class UserManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('country')->where('type','User')->latest();
+            $users = User::with('country')->where('type','User')->orderBy('id','DESC');
 
             return DataTables::of($users)
                 ->addIndexColumn()
