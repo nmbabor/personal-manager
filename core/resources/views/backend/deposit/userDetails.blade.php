@@ -127,7 +127,7 @@
                                     <td>{{ date('M, Y', strtotime($data->payment_month_year)) }}</td>
                                     <td>{{ $data->paid_amount }} Tk</td>
                                     <td>
-                                        @if((count($allData)-1) == $key)
+                                        @if($lastId == $data->id)
                                         <div class="text-center">
                                             <!-- Button trigger modal -->
                                             <button title="Edit Category" type="button" class="btn btn-info btn-xs"
@@ -171,7 +171,7 @@
                                                             </tr>
                                                         </table>
                                                         <div class="form-group">
-                                                            
+
                                                             <label class="col-md-12"> Payment Gateway : </label>
                                                             <div class="col-md-12">
                                                                 {!! Form::select('payment_gateway', paymentGateway(), $data->payment_gateway, ['class' => 'form-control', 'required']) !!}
@@ -191,7 +191,7 @@
                                                                     name="payment_date" value="{{ date('d-m-Y',strtotime($data->payment_date)) }}">
                                                             </div>
                                                         </div>
-                            
+
                                                         <div class="form-group">
                                                             <label class="col-md-12">Description : </label>
                                                             <div class="col-md-12">
@@ -199,7 +199,7 @@
                                                                 <label><input type="checkbox" class="mt-2" name="special_consider" @if($data->paid_amount == 0) checked @endif > Special
                                                                     Consideration </label>
                                                             </div>
-                                                            
+
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -221,6 +221,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{$allData->links()}}
                 </div>
             </div>
         </div>

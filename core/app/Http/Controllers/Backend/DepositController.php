@@ -17,11 +17,12 @@ class DepositController extends Controller
         $user = User::findOrFail($id);
         $dueMonthCount = count($user->dueMonths());
         $totalDue = $dueMonthCount * $user->monthly_amount;
-        $allData = MonthlyDeposit::where('user_id', $id)->get();
-        return view('backend.deposit.userDetails', compact('user', 'allData', 'dueMonthCount', 'totalDue'));
+        $allData = MonthlyDeposit::where('user_id', $id)->orderBy('id','DESC')->paginate(24);
+        $lastId = MonthlyDeposit::where('user_id', $id)->orderBy('id','DESC')->value('id');
+        return view('backend.deposit.userDetails', compact('user', 'allData', 'dueMonthCount', 'totalDue','lastId'));
     }
 
-    
+
     public function monthlyDeposit(Request $request)
     {
         $request->validate([
@@ -83,7 +84,7 @@ class DepositController extends Controller
             }elseif(isset($lastPay->payment_month_year)){
                 $currentMonth = new \DateTime($lastPay->payment_month_year);
             }else{
-                $currentMonth = now(); 
+                $currentMonth = now();
             }
             while ($total_months > 0) {
                 $currentMonth->modify('+1 month');
