@@ -47,12 +47,12 @@
                                 $i = 0;
                             @endphp
                             @foreach ($users as $user)
+                                @if($user->total_amount>0)
                                 @php
                                     $i++;
                                 @endphp
-                                @if($user->total_amount>0)
                                 <tr>
-                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $i }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->mobile_no }}</td>
                                     @if (isset($request->month))

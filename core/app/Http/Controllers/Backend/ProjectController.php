@@ -97,7 +97,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
         $allData = ProjectBasedDeposit::where('project_id', $id)->get();
         $expenses = ProjectBasedExpense::where('project_id', $id)->get();
-        $users = User::where('type', 'User')->pluck('name', 'id');
+        $users = User::pluck('name', 'id');
         return view('backend.project.collection', compact('project', 'allData', 'users','expenses'));
     }
 
@@ -189,7 +189,7 @@ class ProjectController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
-    
+
     public function expenseStore(Request $request)
     {
         $request->validate([

@@ -119,7 +119,7 @@
                                                 @php $i++; @endphp
                                                 <tr>
                                                     <td>{{ $i }}</td>
-                                                    <td @if (count($user->dueMonths()) > 3) class="text-danger" @endif>{{ $user->name }}</td>
+                                                    <td @if (count($user->dueMonths()) > 4) class="text-danger" @endif>{{ $user->name }}</td>
                                                     <td>{{ $user->country->name ?? '' }}</td>
                                                     <td>{{ $user->mobile_no }}</td>
                                                     <td>{{ $user->monthly_amount }}</td>

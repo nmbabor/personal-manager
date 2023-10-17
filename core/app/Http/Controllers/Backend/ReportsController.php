@@ -39,7 +39,7 @@ class ReportsController extends Controller
 
         $currentYear = date('Y');
         $selectYear = $request->year ?? date('Y');
-        $users = User::where(['type' => 'User', 'is_suspended' => 0])->get();
+        $users = User::where(['type' => 'User'])->get();
         $collection = $request->collection ?? false;
         $grandTotal = 0;
         $monthTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -82,7 +82,7 @@ class ReportsController extends Controller
         $monthlyCollection = MonthlyDeposit::whereYear('payment_date',$selectedYear)->sum('paid_amount');
         $projects = Project::where(['status' => 1])->whereYear('completed_date', $selectedYear)->get();
         $closing = YearlyClosingAmount::where('closing_year',$selectedYear -1)->first();
-       
+
         return view('backend.reports.incomeExpense', compact('projects', 'selectedYear','monthlyCollection','closing'));
     }
 
