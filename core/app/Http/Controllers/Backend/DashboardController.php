@@ -15,21 +15,11 @@ use App\Models\ProjectBasedExpense;
 use App\Models\SupportTicket;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-       /*  $json = File::get('assets/users.json');
-
-        $data = json_decode($json, true);
-        foreach ($data as $item) {
-            $item['password'] = bcrypt($item['mobile_no']);
-            User::create($item);
-        }
-
-        return $data; */
         $users = User::where(['type' => 'User', 'is_suspended' => 0])->get();
         $projects = Project::where(['status' => 1])->count();
         $expense = ProjectBasedExpense::sum('total_amount');

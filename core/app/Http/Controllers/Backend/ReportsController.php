@@ -70,7 +70,7 @@ class ReportsController extends Controller
         }
         $yearsArray = [];
 
-        for ($year = 2021; $year <= $currentYear; $year++) {
+        for ($year = 2021; $year <= ($currentYear+1); $year++) {
             $yearsArray[$year] = $year;
         }
         return view('backend.reports.monthlyCollection', compact('yearsArray', 'request', 'users', 'selectYear', 'collection', 'grandTotal', 'monthTotal'));
