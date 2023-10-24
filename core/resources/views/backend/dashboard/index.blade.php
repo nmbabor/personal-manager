@@ -17,10 +17,12 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="{{ route('projects.create') }}" class="small-box-footer">
-                            <i class="fas fa-plus-circle"></i>
-                            Add new project
-                        </a>
+                        @if(Auth::user()->type == 'Admin')
+                            <a href="{{ route('projects.create') }}" class="small-box-footer">
+                                <i class="fas fa-plus-circle"></i>
+                                Add new project
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- ./col -->
@@ -34,10 +36,12 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
-                            More info
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </a>
+                        @if(Auth::user()->type == 'Admin')
+                            <a href="{{route('reports.monthly-collection')}}" class="small-box-footer">
+                                More info
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- ./col -->
@@ -51,10 +55,12 @@
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="{{ route('backend.admin.user.create') }}" class="small-box-footer">
-                            <i class="fas fa-plus-circle"></i>
-                            Add new member
-                        </a>
+                        @if(Auth::user()->type == 'Admin')
+                            <a href="{{ route('backend.admin.user.create') }}" class="small-box-footer">
+                                <i class="fas fa-plus-circle"></i>
+                                Add new member
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- ./col -->
@@ -68,10 +74,12 @@
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
-                            More info
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </a>
+                        @if(Auth::user()->type == 'Admin')
+                            <a href="{{route('reports.projects')}}" class="small-box-footer">
+                                More info
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- ./col -->
@@ -102,46 +110,47 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover table-min-padding">
                                     <thead>
-                                        <tr>
-                                            <th width="2%">#</th>
-                                            <th>Member Name</th>
-                                            <th>Amount</th>
-                                            <th>Due Month</th>
-                                            @if(Auth::user()->type == 'Admin')
+                                    <tr>
+                                        <th width="2%">#</th>
+                                        <th>Member Name</th>
+                                        <th>Amount</th>
+                                        <th>Due Month</th>
+                                        @if(Auth::user()->type == 'Admin')
                                             <th class="text-center">Actions</th>
-                                            @endif
-                                        </tr>
+                                        @endif
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @php $i = 0; @endphp
-                                        @foreach ($users as $user)
-                                            @php
-                                                $countMonth = 0;
-                                                if(Auth::user()->type != 'Admin'){
-                                                    $countMonth = 4;
-                                                }
-                                            @endphp
-                                            @if (count($user->dueMonths()) > $countMonth)
-                                                @php $i++; @endphp
-                                                <tr>
-                                                    <td>{{ $i }}</td>
-                                                    <td @if (count($user->dueMonths()) > 4) class="text-danger" @endif>
-                                                        {{ $user->name }}</td>
-                                                    <td>{{ $user->monthly_amount }}</td>
-                                                    <td>
-                                                        ({{ count($user->dueMonths()) }})
-                                                        @foreach ($user->dueMonths() as $due)
-                                                            <span class="badge badge-danger">
+                                    @php $i = 0; @endphp
+                                    @foreach ($users as $user)
+                                        @php
+                                            $countMonth = 0;
+                                            if(Auth::user()->type != 'Admin'){
+                                                $countMonth = 4;
+                                            }
+                                        @endphp
+                                        @if (count($user->dueMonths()) > $countMonth)
+                                            @php $i++; @endphp
+                                            <tr>
+                                                <td>{{ $i }}</td>
+                                                <td @if (count($user->dueMonths()) > 4) class="text-danger" @endif>
+                                                    {{ $user->name }}</td>
+                                                <td>{{ $user->monthly_amount }}</td>
+                                                <td>
+                                                    ({{ count($user->dueMonths()) }})
+                                                    @foreach ($user->dueMonths() as $due)
+                                                        <span class="badge badge-danger">
                                                                 {{ date('M, Y', strtotime($due)) }} </span>
-                                                        @endforeach
-                                                    </td>
-                                                    @if(Auth::user()->type == 'Admin')
+                                                    @endforeach
+                                                </td>
+                                                @if(Auth::user()->type == 'Admin')
                                                     <td><a href="{{ route('deposit.user-details', $user->id) }}"
-                                                            class="btn btn-info py-0 px-1"> <i class="fa fa-eye"></i> </a> </td>
-                                                            @endif
-                                                </tr>
-                                            @endif
-                                        @endforeach
+                                                           class="btn btn-info py-0 px-1"> <i class="fa fa-eye"></i>
+                                                        </a></td>
+                                                @endif
+                                            </tr>
+                                        @endif
+                                    @endforeach
 
                                     </tbody>
                                 </table>

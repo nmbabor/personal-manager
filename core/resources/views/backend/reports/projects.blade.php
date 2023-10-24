@@ -12,7 +12,7 @@
                             {{ Form::select('year', $yearsArray, $request->year ?? '', ['class' => 'form-control', 'placeholder' => 'All Year']) }}
                             <button class="btn btn-secondary" type="submit" id="button-addon2">Find</button>
                         </div>
-                       
+
                     </form>
                 </div>
             </div>
@@ -24,13 +24,15 @@
                                 <th width="2%">#</th>
                                 <th>Title</th>
                                 <th>Address</th>
+                                @if(Auth::user()->type == 'Admin')
                                 <th>Collection</th>
                                 <th>Regular Fund</th>
+                                @endif
                                 <th>Expense</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php 
+                            @php
                                 $i = 0;
                                 $totalCollection = 0;
                                 $totalExpense = 0;
@@ -49,6 +51,7 @@
                                     <td>{{ $i }}</td>
                                     <td>{{ $project->title }}</td>
                                     <td>{{ $project->address }}</td>
+                                    @if(Auth::user()->type == 'Admin')
                                     <td>{{ $project->totalIncome() }}</td>
                                     <td>
                                         @if ($regularFund < 0)
@@ -57,6 +60,7 @@
                                             <i class="fa fa-plus-circle text-success"></i> {{ $regularFund }}
                                         @endif
                                     </td>
+                                    @endif
                                     <td>{{ $project->totalExpense() }}</td>
                                 </tr>
                             @endforeach
@@ -64,6 +68,7 @@
                         <tfoot>
                             <tr style="background:#ccc">
                                 <th colspan="3" class="text-right"> Total: </th>
+                                @if(Auth::user()->type == 'Admin')
                                 <th>{{$totalCollection}}</th>
                                 <th>
                                     @if ($totalRegularFund < 0)
@@ -72,6 +77,7 @@
                                         <i class="fa fa-plus-circle text-success"></i> {{ $totalRegularFund }}
                                     @endif
                                 </th>
+                                @endif
                                 <th>{{$totalExpense}}</th>
                             </tr>
                         </tfoot>
