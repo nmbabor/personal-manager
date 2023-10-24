@@ -47,9 +47,7 @@
     <link rel="stylesheet" href="{{ asset('assets/backend/dist/css/datatable/buttons.dataTables.min.css') }}">
     {{-- custom style --}}
     <link rel="stylesheet" href="{{ asset('assets/backend/dist/css/custom-style.css') }}">
-
     @stack('style')
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
