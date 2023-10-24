@@ -27,26 +27,22 @@ class AuthController extends Controller
                 ]
             );
 
-            if (!Auth::validate($request->only('email', 'password'))) {
+            $login = $request->email;
+            $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile_no';
+
+            if (!Auth::attempt([$field => $login, 'password' => $request->password])) {
                 return redirect()->back()->with('error', 'Incorrect email or password');
             }
 
-            $user = User::where('email', $request->email)->first();
+            $user = User::where($field, $login)->first();
+        
             if ($user->is_suspended == 1) {
+                Auth::logout();
                 return redirect()->back()->with('error', 'Your account is temporarily suspended');
             }
 
-            $remember = $request->remember_me ? true : false;
-            $credentials['email'] = $request->email;
-            $credentials['password'] = $request->password;
-            $credentials['remember'] = $remember;
-            $credentials['previous_url'] = $request->previous_url;
-            
-            $valid = Arr::only($credentials, ['email', 'password']);
-
-            if (Auth::attempt($valid, $credentials['remember'])) {
+            if (Auth::check()) {
                 session()->regenerate();
-        
                 return $this->userRedirect();
             } else {
                 return redirect()->route('login')->with('error', 'Incorrect email or password');
@@ -63,7 +59,7 @@ class AuthController extends Controller
 
     public function signup(Request $request)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             return redirect()->route('backend.admin.dashboard');
         }
         if ($request->isMethod('post')) {
@@ -80,7 +76,7 @@ class AuthController extends Controller
                 'username' => uniqid(),
                 'type' => 'User'
             ]);
-            
+
             if ($newUser) {
                 $request->session()->regenerate();
                 Auth::login($newUser);

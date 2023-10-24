@@ -46,7 +46,7 @@
                                 @endphp
 
                                 <tr>
-                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $i }}</td>
                                     <td>{{ $project->title }}</td>
                                     <td>{{ $project->address }}</td>
                                     <td>{{ $project->totalIncome() }}</td>

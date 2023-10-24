@@ -20,10 +20,10 @@
                 <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email"
+                        <input type="text" class="form-control" id="email" placeholder="Enter email"
                             autocomplete="off" name="email" required>
                         <div class="invalid-feedback">
-                            Please enter a valid email address.
+                            Please enter a valid input.
                         </div>
                     </div>
                 </div>
