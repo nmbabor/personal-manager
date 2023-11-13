@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label class="col-md-12"> Payable Amount : </label>
                                 <div class="col-md-12">
-                                    <input type="number" id="payableAmounts" readonly class="form-control" value="500"
+                                    <input type="number" id="payableAmounts" readonly class="form-control" value="{{ $user->monthly_amount }}"
                                         min="500" name="total_paid">
                                 </div>
                                 <div class="col-md-12">
