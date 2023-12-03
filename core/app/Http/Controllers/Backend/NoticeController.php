@@ -38,6 +38,10 @@ class NoticeController extends Controller
                         href="{{ route(\'manage-notice.show\', $id) }}">
                         <i class="fas fa-eye"></i>
                     </a>
+                    <a class="btn btn-xs btn-primary"
+                        href="{{ route(\'manage-notice.edit\', $id) }}?duplicate_data={{$id}}">
+                        <i class="fas fa-copy"></i>
+                    </a>
                     <a class="btn btn-xs bg-gradient-primary"
                         href="{{ route(\'manage-notice.edit\', $id) }}">
                         <i class="fas fa-edit"></i>
@@ -99,8 +103,18 @@ class NoticeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
+        if(isset($request->duplicate_data)){
+            $data = Notice::findOrFail($request->duplicate_data);
+           $newId =  Notice::create([
+                'title'=> $data->title ,
+               'details'=> $data->details ,
+               'notice_date'=> date('Y-m-d'),
+               'status' => 1
+            ])->id;
+           return redirect(route('manage-notice.edit',$newId))->with('success','Data successfully duplicated.');
+        }
         $data = Notice::findOrFail($id);
         return view('backend.notice.edit',compact('data'));
     }
