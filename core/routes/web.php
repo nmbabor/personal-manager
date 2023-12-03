@@ -73,12 +73,13 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('project-collection','Backend\ProjectController@paymentStore')->name('projects.collection');
     Route::put('project-collection/{id}','Backend\ProjectController@paymentUpdate')->name('projects.collection.update');
     Route::delete('project-collection/{id}','Backend\ProjectController@paymentDelete')->name('projects.collection.delete');
-    
+
     Route::post('project-expense','Backend\ProjectController@expenseStore')->name('projects.expense');
     Route::put('project-expense/{id}','Backend\ProjectController@expenseUpdate')->name('projects.expense.update');
     Route::delete('project-expense/{id}','Backend\ProjectController@expenseDelete')->name('projects.expense.delete');
     // page builder
     Route::resource('page-builder','Backend\PageController');
+    Route::resource('manage-notice','Backend\NoticeController');
 
     // Reports
     Route::prefix('reports')->group(function () {
@@ -133,7 +134,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         });
         Route::resource('menus','Backend\MenuController');
         Route::put('menu-serial-update','Backend\MenuController@serialUpdate')->name('menu-serial-update');
-        
+
         Route::post('sub-menus','Backend\SubMenuController@store')->name('sub-menus.store');
         Route::match(['put','patch'],'sub-menus/{id}','Backend\SubMenuController@update')->name('sub-menus.update');
         Route::delete('sub-menus/{id}','Backend\SubMenuController@destroy')->name('sub-menus.destroy');

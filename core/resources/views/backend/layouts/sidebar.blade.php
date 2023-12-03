@@ -21,7 +21,7 @@
                     </p>
                 </a>
             </li>
-            
+
             @if(auth()->user()->type== 'Admin')
             <li class="nav-item d-none">
                 <a href="#" class="nav-link">
@@ -67,7 +67,7 @@
                     </li>
                 </ul>
             </li>
-            
+
             <li class="nav-item d-none">
                 <a href="{{ route('page-builder.index') }}"
                     class="nav-link {{ menuActive('page-builder.*') ? 'active' : '' }}">
@@ -81,6 +81,15 @@
                     <i class="nav-icon fas fa-users"></i>
                     <p>
                         Members
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('manage-notice.index') }}"
+                    class="nav-link {{ menuActive('manage-notice.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-bell"></i>
+                    <p>
+                        Notice
                     </p>
                 </a>
             </li>

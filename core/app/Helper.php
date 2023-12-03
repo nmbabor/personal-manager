@@ -197,7 +197,9 @@ function menus()
 function uploader($file, $path, $width = null, $height = null)
 {
     $path = ltrim($path, '/');
-    $file_name = time() . "_" . uniqid() . "_" . $file->getClientOriginalName();
+    $originalName = $file->getClientOriginalName();
+    $filenameWithoutExtension = pathinfo($originalName, PATHINFO_FILENAME);
+    $file_name = time() . "-" . Str::slug($filenameWithoutExtension).'.'.$file->getClientOriginalExtension();
     $storingPath = storage_path() . "/app/public/" . $path . "/" . $file_name;
     if (!Storage::exists('public/' . $path)) {
         Storage::makeDirectory('public/' . $path);
@@ -217,7 +219,9 @@ function uploader($file, $path, $width = null, $height = null)
 
 function uploadToPublic($file, $path = "/assets/images")
 {
-    $file_name = time() . "_" . uniqid() . "_" . $file->getClientOriginalName();
+    $originalName = $file->getClientOriginalName();
+    $filenameWithoutExtension = pathinfo($originalName, PATHINFO_FILENAME);
+    $file_name = time() . "-" . Str::slug($filenameWithoutExtension).'.'.$file->getClientOriginalExtension();
     $storingPath = public_path() . $path . "/" . $file_name;
 
     // if (!file_exists($path)) {
