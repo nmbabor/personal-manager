@@ -4,7 +4,7 @@
   'close_msg' => 'Down for maintenance',
   'site_url' => 'http://localhost/gback',
   'site_name' => 'GBack',
-  'site_logo' => 'assets/images/logo/1697368122_652bc83a4249b_Remove background project (1).png',
+  'site_logo' => 'assets/images/logo/1701598111-dupkt-logo.png',
   'app_name' => 'A Trip',
   'favicon_icon' => 'assets/images/logo/1697368122_652bc83a459d4_Remove background project (1).png',
   'favicon_icon_apple' => '/assets/images/logo/1694845939_65054bf32704b_favicon.png',
