@@ -122,7 +122,7 @@
                                     </div>
                                 </div>
                                 <h6 style="text-align: center; margin-top: 5px; margin-bottom: 0"> মাসিক @if(isset($request->collection)) কালেকশান @else জমা @endif</h6>
-                                <p  style="text-align: center; margin-bottom: 0px;"> @foreach($request->month as $mKey => $month) @if($mKey>0) , @endif {{date('M',strtotime('2023/'.$month.'/01'))}} @endforeach,  {{$selectYear}}  </p>
+                                <p  style="text-align: center; margin-bottom: 0px;">@if (isset($request->month)) @foreach($request->month as $mKey => $month) @if($mKey>0) , @endif {{date('M',strtotime('2023/'.$month.'/01'))}} @endforeach, @endif  {{$selectYear}}  </p>
                             </td>
                         </tr>
                         </thead>
@@ -145,7 +145,7 @@
                                         <th>{{ $month }}</th>
                                     @endforeach
                                 @endif
-                                <th> Total</th>
+                                <th> Total </th>
                             </tr>
                             </thead>
                             <tbody>

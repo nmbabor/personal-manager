@@ -26,7 +26,6 @@ use App\Http\Controllers\Backend\WebsiteSettingController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('frontend.home');
-    Route::get('/auto-fill', [DashboardController::class, 'autoFill']);
 });
 // homepage
 //Route::get('/','Frontend\HomeController@index')->name('frontend.home');
