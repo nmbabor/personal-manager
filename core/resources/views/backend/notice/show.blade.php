@@ -40,7 +40,7 @@
                             left: 30px;
                         }
                         .print-content{
-                            padding: 15px 40px;
+                            padding: 10px 40px;
                             position: relative;
                             min-height: 600px;
                         }
@@ -94,14 +94,16 @@
                     </div>
 
                     <div class="print-content">
+                        <p style="text-align: right;margin-bottom: 5px"> তারিখঃ {{en2bn(date('d-m-Y',strtotime($data->notice_date)))}} ইং</p>
+                        {!! $data->details !!}
                         <div class="watermark">
                             <img src="{{ imageRecover(readconfig('site_logo')) }}">
                         </div>
-
-                        {!! $data->details !!}
                     </div>
+                    <p style="text-align: center"> ৭নং ধর্মপুর ইউনিয়ন, সদর, নোয়াখালী </p>
 
                 </div>
+                <br>
             </div>
         </div>
     </div>
