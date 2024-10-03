@@ -7,6 +7,14 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+            <form action="" class="d-flex justify-content-center">
+                <div class="col-md-3">
+                    <div class="input-group mb-3">
+                        {{Form::select('country',$country,$selectedCountry??'',['class'=>'form-control select2','placeholder'=>'All Country'])}}
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Find</button>
+                      </div>
+                </div>
+            </form>
             <div class="row">
                 <div class="print-body" id="printBody">
                     <style>

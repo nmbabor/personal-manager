@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 use App\Models\MonthlyDeposit;
 use App\Models\Project;
 use App\Models\User;
@@ -13,10 +14,16 @@ use Validator;
 
 class ReportsController extends Controller
 {
-    public function due()
+    public function due(Request $request)
     {
-        $users = User::where(['type' => 'User', 'is_suspended' => 0])->get();
-        return view('backend.reports.due', compact('users'));
+        $country = Country::whereStatus(1)->pluck('name','id');
+        $users = User::where(['type' => 'User', 'is_suspended' => 0]);
+        $selectedCountry = $request->country ?? '';
+        if(isset($request->country)){
+            $users = $users->where('country_id',$request->country);
+        }
+        $users = $users->get();
+        return view('backend.reports.due', compact('users','country','selectedCountry'));
     }
 
     public function projects(Request $request)
