@@ -103,6 +103,15 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('amount-deposited.index') }}"
+                    class="nav-link {{ menuActive('amount-deposited.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-dollar-sign"></i>
+                    <p>
+                        Deposit/Loan
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="fas fa-credit-card nav-icon"></i>
                     <p>

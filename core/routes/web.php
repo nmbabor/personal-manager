@@ -138,6 +138,10 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
         Route::match(['put','patch'],'sub-menus/{id}','Backend\SubMenuController@update')->name('sub-menus.update');
         Route::delete('sub-menus/{id}','Backend\SubMenuController@destroy')->name('sub-menus.destroy');
     });
+
+    // Amount Deposited to User or account
+    Route::resource('amount-deposited','Backend\AmountDepositedController');
+
 });
 
 // ====================== /BACKEND ======================
