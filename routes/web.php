@@ -67,6 +67,11 @@ Route::prefix('user')->middleware(['auth'])->group(function () {
 Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('backend.admin.dashboard');
 
+    Route::resource('customers','Backend\CustomerController');
+    Route::post('customer-ladger','Backend\CustomerController@ladgerCreate')->name('customers.ladger.store');
+    Route::put('customer-ladger/{id}','Backend\CustomerController@ladgerUpdate')->name('customers.ladger.update');
+    Route::delete('customer-ladger/{id}','Backend\CustomerController@ladgerDelete')->name('customers.ladger.delete');
+
     Route::resource('text-slider','Backend\TextSliderController');
     Route::resource('projects','Backend\ProjectController');
     Route::post('project-collection','Backend\ProjectController@paymentStore')->name('projects.collection');

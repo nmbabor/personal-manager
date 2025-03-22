@@ -67,12 +67,13 @@
                     </li>
                 </ul>
             </li>
-
-            <li class="nav-item d-none">
-                <a href="{{ route('page-builder.index') }}"
-                    class="nav-link {{ menuActive('page-builder.*') ? 'active' : '' }}">
-                    <i class="fas fa-file nav-icon"></i>
-                    <p>Page Builder</p>
+            <li class="nav-item">
+                <a href="{{ route('customers.index') }}"
+                    class="nav-link {{ menuActive('customers.index') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        গ্রাহক লিস্ট
+                    </p>
                 </a>
             </li>
             <li class="nav-item">

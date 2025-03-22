@@ -131,16 +131,16 @@
                     </h1>
 
                     <div class="delete-info">
-                        <h3 class="delete-title"> Delete</h3>
-                        <p class="delete-text">Are you sure you want to delete it? This action cannot be undone.
+                        <h3 class="delete-title"> ডিলেট</h3>
+                        <p class="delete-text">আপনি কি এটি ডিলেট করতে চান? এই পুনরায় ফিরিয়ে আনা যাবে না।
                         </p>
                     </div>
                     <div class="row justify-content-around border-top pt-3">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <a href="#" class="btn btn-success normal-delete-button" style="display: none"> <i class="fa fa-trash"></i> Confirm</a>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">না</button>
+                        <a href="#" class="btn btn-success normal-delete-button" style="display: none"> <i class="fa fa-trash"></i> কনফার্ম</a>
                         {!! Form::open(['method' => 'delete', 'class' => 'resource-delete-form']) !!}
                         <button type="submit" class="btn btn-success "> <i class="fa fa-trash"></i>
-                            Confirm</button>
+                            ডিলেট করুন</button>
                         {!! Form::close() !!}
                     </div>
                 </div>
