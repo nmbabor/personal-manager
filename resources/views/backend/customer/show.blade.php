@@ -145,7 +145,7 @@
                         <div class="card-header d-flex p-0">
                             <ul class="nav nav-pills p-2">
                             <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab"> <i class="fa fa-plus-circle"></i> বাকি এন্ট্রি</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"> <i class="fa fa-plus-circle"></i> জমা এন্ট্রি</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab"> <i class="fa fa-minus-circle"></i> জমা এন্ট্রি</a></li>
                             
                             </ul>
                         </div><!-- /.card-header -->

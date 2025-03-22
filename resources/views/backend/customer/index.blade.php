@@ -16,8 +16,8 @@
                     <tr>
                         <th data-orderable="false">#</th>
                         <th>গ্রাহকের নাম</th>
+                        <th> মোবাইল নাম্বার </th>
                         <th>ঠিকানা</th>
-                        <th>ওয়ার্ড</th>
                         <th>মোট বাকি</th>
                         <th width="10%" data-orderable="false">
                             ---
@@ -52,12 +52,12 @@
                         name: 'name'
                     },
                     {
-                        data: 'address',
-                        name: 'address',
+                        data: 'mobile_no',
+                        name: 'mobile_no'
                     },
                     {
-                        data: 'word_no',
-                        name: 'word_no',
+                        data: 'address',
+                        name: 'address',
                     },
                     {
                         data: 'total_due',

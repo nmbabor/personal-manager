@@ -29,7 +29,7 @@ class CustomerController extends Controller
                     }
                 })
                 
-                ->editColumn('total_due', function ($data) {
+                ->addColumn('total_due', function ($data) {
                     $totalDue = CustomerLadger::where('customer_id', $data->id)
                                             ->where('type', 'due')
                                             ->where('status', 1)
@@ -59,7 +59,7 @@ class CustomerController extends Controller
                     </a>
                 </div>'
                 )
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['status','total_due', 'action'])
                 ->toJson();
         }
         
@@ -158,7 +158,17 @@ class CustomerController extends Controller
             $customer->delete();
             return back()->with('success', 'গ্রাহক ডিলিট সফল হয়েছে');
         } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            // return [
+            //     'code' => $e->getCode(),
+            //     'message' => $e->getMessage(),
+            //     'file' => $e->getFile(),
+            //     'line' => $e->getLine(),
+            // ];
+            
+            if ($e->getCode() == 1451) {
+                return back()->with('error', 'এই গ্রাহককে ডিলিট করা সম্ভব নয় কারণ তার হিসাব এন্ট্রি রয়েছে');
+            }
+            return back()->with('error', 'এই গ্রাহক ডিলিট করা সম্ভব হয়নি');
         }
     }
 
