@@ -5,14 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerLadger extends Model
+class CustomerDueBook extends Model
 {
     use HasFactory;
-    protected $fillable = ['status', 'amount', 'type', 'date', 'details','customer_due_book_id', 'customer_id', 'created_by', 'updated_by'];
 
-    public function customerDueBook()
+    protected $fillable = [
+        'start_date',
+        'close_date',
+        'customer_id',
+        'created_by',
+        'updated_by',
+    ];
+
+    public function customer()
     {
-        return $this->belongsTo(customerDueBook::class);
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function ladgers()
+    {
+        return $this->hasMany(CustomerLadger::class);
     }
 
     public function createdBy()

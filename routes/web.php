@@ -71,6 +71,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::post('customer-ladger','Backend\CustomerController@ladgerCreate')->name('customers.ladger.store');
     Route::put('customer-ladger/{id}','Backend\CustomerController@ladgerUpdate')->name('customers.ladger.update');
     Route::delete('customer-ladger/{id}','Backend\CustomerController@ladgerDelete')->name('customers.ladger.delete');
+    Route::get('customer-due-book-close/{id}','Backend\CustomerController@dueBookClose')->name('customers.due-book.close');
 
     Route::resource('text-slider','Backend\TextSliderController');
     Route::resource('projects','Backend\ProjectController');

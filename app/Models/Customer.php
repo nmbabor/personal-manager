@@ -10,8 +10,8 @@ class Customer extends Model
     use HasFactory;
     protected $fillable = ['name','mobile_no','address','word_no','father_name','status','created_by'];
 
-    public function ladgers()
+    public function dueBooks()
     {
-        return $this->hasMany(CustomerLadger::class);
+        return $this->hasMany(CustomerDueBook::class);
     }
 }

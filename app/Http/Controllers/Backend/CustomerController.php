@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\CustomerLadger;
+use App\Models\CustomerDueBook;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -21,24 +22,16 @@ class CustomerController extends Controller
             return DataTables::of($allData)
                 ->addIndexColumn()
                 ->addColumn('DT_RowIndex','')
-                ->editColumn('status', function ($data) {
-                    if($data->status == 1){
-                        return "<span class='badge bg-success'><i class='fas fa-check'></i></span>";
-                    }else{
-                        return "<span class='badge bg-danger'>ইনেক্টিভ</span>";
-                    }
-                })
                 ->editColumn('name_link','<a href="{{ route(\'customers.show\', $id) }}">{{ $name }} </a>')
                 ->addColumn('total_due', function ($data) {
-                    $totalDue = CustomerLadger::where('customer_id', $data->id)
-                                            ->where('type', 'due')
-                                            ->where('status', 1)
-                                            ->sum('amount');
-                    $totalDeposit = CustomerLadger::where('customer_id', $data->id)
-                                                ->where('type', 'deposit')
-                                                ->where('status', 1)
-                                                ->sum('amount');
-                    return $totalDue - $totalDeposit;
+                    $dueBook = CustomerDueBook::where('customer_id', $data->id)->where('close_date',null)->first();
+                    if($dueBook){
+                        $totalDue = $dueBook->ladgers->where('type', 'due')->sum('amount');
+                        $totalDeposit = $dueBook->ladgers->where('type', 'deposit')->sum('amount');
+                        return $totalDue - $totalDeposit;
+                    }
+                    return 0;
+                    
                 })
                 ->addColumn(
                     'action',
@@ -59,7 +52,7 @@ class CustomerController extends Controller
                     </a>
                 </div>'
                 )
-                ->rawColumns(['name_link','status','total_due', 'action'])
+                ->rawColumns(['name_link','total_due', 'action'])
                 ->toJson();
         }
         
@@ -115,16 +108,25 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer, Request $request)
     {
-        $allData = $customer->ladgers->where('status', 1);
-        if(isset($request->order)){
-            $allData = $allData->sortByDesc('id');
+        $totalDue = 0;
+        $totalDeposit = 0;
+        $currentDue = 0;
+        $lastId = null;
+        $allData = [];
+        $dueBook = $customer->dueBooks->where('close_date',null)->first();
+        if($dueBook){
+            // calculate total due, deposit and current due
+            $totalDue = $dueBook->ladgers->where('type', 'due')->sum('amount');
+            $totalDeposit = $dueBook->ladgers->where('type', 'deposit')->sum('amount');
+            $currentDue =  $totalDue - $totalDeposit;
+            // get last ledger id
+            $lastId = $dueBook->ladgers->sortByDesc('id')->first()->id;
+            $allData = $dueBook->ladgers;
+            if(isset($request->order)){
+                $allData = $allData->sortByDesc('id');
+            }
         }
-        $lastId = $customer->ladgers->where('status', 1)->sortByDesc('id')->first()->id ?? null;
-
-        $totalDue = $customer->ladgers->where('status', 1)->where('type', 'due')->sum('amount');
-        $totalDeposit = $customer->ladgers->where('status', 1)->where('type', 'deposit')->sum('amount');
-        $currentDue =  $totalDue - $totalDeposit;
-        return view('backend.customer.show',compact('customer','allData','lastId','currentDue'));
+        return view('backend.customer.show',compact('customer','allData','lastId','currentDue','totalDue','totalDeposit','dueBook'));
     }
 
     /**
@@ -166,28 +168,40 @@ class CustomerController extends Controller
             $customer->delete();
             return back()->with('success', 'গ্রাহক ডিলিট সফল হয়েছে');
         } catch (\Exception $e) {
-            // return [
-            //     'code' => $e->getCode(),
-            //     'message' => $e->getMessage(),
-            //     'file' => $e->getFile(),
-            //     'line' => $e->getLine(),
-            // ];
-            
             if ($e->getCode() == 1451) {
                 return back()->with('error', 'এই গ্রাহককে ডিলিট করা সম্ভব নয় কারণ তার হিসাব এন্ট্রি রয়েছে');
             }
-            return back()->with('error', 'এই গ্রাহক ডিলিট করা সম্ভব হয়নি');
+            return back()->with('error', 'এই গ্রাহককে ডিলিট করা সম্ভব নয় কারণ তার হিসাব এন্ট্রি রয়েছে');
         }
     }
 
     public function ladgerCreate(Request $request)
     {
+       // if current due book not exist then create new due book
+        $customerDueBook = CustomerDueBook::where('customer_id', $request->customer_id)
+                ->where('close_date', null)->first();
+        if (!$customerDueBook) {
+            $customerDueBook = CustomerDueBook::create([
+                'start_date' => now(),
+                'customer_id' => $request->customer_id,
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
+            ]);
+        }
+        $request->merge(['customer_due_book_id' => $customerDueBook->id]);
+
         $request->validate([
             'amount' => 'required',
             'type' => 'required',
             'date' => 'required',
             'details' => 'required',
-        ]);
+        ],
+        [
+            'amount.required' => 'টাকার পরিমাণ অবশ্যই দিতে হবে',
+            'date.required' => 'তারিখ অবশ্যই দিতে হবে',
+            'details.required' => 'বিবরণ অবশ্যই দিতে হবে',
+        ]
+    );
 
         try {
             $input = $request->except('_token');
@@ -207,7 +221,13 @@ class CustomerController extends Controller
             'amount' => 'required',
             'date' => 'required',
             'details' => 'required',
-        ]);
+        ],
+        [
+            'amount.required' => 'টাকার পরিমাণ অবশ্যই দিতে হবে',
+            'date.required' => 'তারিখ অবশ্যই দিতে হবে',
+            'details.required' => 'বিবরণ অবশ্যই দিতে হবে',
+        ]
+    );
 
         try {
             $input = $request->except('_token', '_method');
@@ -230,5 +250,40 @@ class CustomerController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    public function dueBookClose(Request $request){
+        try {
+        $customer = Customer::findOrFail($request->id);
+        $dueBook = $customer->dueBooks->where('close_date',null)->first();
+        // calculate total due, deposit and current due
+        $totalDue = $dueBook->ladgers->where('type', 'due')->sum('amount');
+        $totalDeposit = $dueBook->ladgers->where('type', 'deposit')->sum('amount');
+        $currentDue =  $totalDue - $totalDeposit;
+        // close current book and open new book
+        $dueBook->update([
+            'close_date'=>now()
+        ]);
+        $newBook = CustomerDueBook::create([
+            'start_date' => now(),
+            'customer_id' => $request->id,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
+        ]);
+        // create new ladger
+        $ladgerData = [
+            'customer_id' => $request->id,
+            'amount' => ($currentDue>0) ? $currentDue : $currentDue * (-1),
+            'type' => ($currentDue > 0)?'due':'deposit',
+            'date' => now(),
+            'details' => "পূর্বের খাতার জের ". (($currentDue > 0)?'বাকি':'জমা'),
+        ];
+        $this->ladgerCreate(new Request($ladgerData));
+        return back()->with('success', 'নতুন খাতা সফল ভাবে খোলা হয়েছে');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+
     }
 }
