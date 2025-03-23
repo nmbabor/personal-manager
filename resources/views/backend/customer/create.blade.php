@@ -26,8 +26,11 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="mobileNumber" class="form-label">মোবাইল নাম্বার<span class="text-danger">*</span> :</label>
-                            <input type="number" min="0" class="form-control" id="mobileNumber" placeholder="মোবাইল নাম্বার"
+                            <input type="number" min="0" class="form-control {{ $errors->has('mobile_no') ? 'is-invalid' : '' }}" id="mobileNumber" placeholder="মোবাইল নাম্বার"
                                 name="mobile_no" value="{{ old('mobile_no') }}" required>
+                                @if ($errors->has('mobile_no'))
+                                    <span class="text-danger">{{ $errors->first('mobile_no') }}</span>
+                                @endif
                         </div>
                     </div>
                     <div class="col-lg-6">

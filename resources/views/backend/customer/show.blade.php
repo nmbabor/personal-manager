@@ -24,7 +24,7 @@
                             <td><b>স্ট্যাটাস:</b> {{ $customer->status == 1 ? 'একটিভ' : 'ইনেক্টিভ' }} </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="text-center"> <h5> <b>মোট বাকি:</b> <span class="text-danger"> {{ $currentDue }} টাকা </span> </h5> </td>
+                            <td colspan="3" class="text-center"> <h5> <b>মোট বাকি:</b> <span class="text-danger"> {{ number_format($currentDue, 0, '.', ',') }} টাকা </span> </h5> </td>
                         </tr>
                         
                     </table>
@@ -32,33 +32,39 @@
                 
 
                 <div class="col-md-8 table-responsive">
-                    <table class="table table-bordered table-striped table-hover table-min-padding">
+                    <table class="table table-bordered table-hover table-min-padding ">
                         <thead>
                             <tr class="text-center">
                                 <th width="13%">তারিখ</th>
                                 <th>বিবরণ</th>
                                 <th width="15%">বাকি টাকা</th>
                                 <th width="15%">জমা টাকা</th>
-                                <th width="12%" class="text-center">---</th>
+                                <th width="10%" class="text-right">
+                                    @if(request()->get('order') == 1)
+                                        <a href="{{ request()->url() }}"> <i class="fa fa-arrow-down"></i> </a>
+                                    @else
+                                        <a href="{{ request()->fullUrlWithQuery(['order' => 1]) }}"> <i class="fa fa-arrow-up"></i> </a>
+                                    @endif
+                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($allData as $key => $data)
-                                <tr>
+                                <tr class="{{($data->type != 'due') ? 'bg-light-success' : ''}}">
                                     <td>{{ date('d-m-Y', strtotime($data->date)) }}</td>
                                     <td>{{ $data->details }}</td>
                                     <td class="text-right">
                                         @if ($data->type == 'due')
-                                            {{ $data->amount }}
+                                            {{ number_format($data->amount, 0, '.', ',') }}/-
                                         @endif
                                     </td>
                                     <td class="text-right">
                                         @if ($data->type != 'due')
-                                            {{ $data->amount }}
+                                           <span class="px-2"> {{ number_format($data->amount, 0, '.', ',') }}/- </span>
                                         @endif
                                     </td>
                                     <td>
-                                        @if($lastId == $data->id)
+                                        @if($lastId == $data->id && $data->created_at->diffInHours(now()) < 24)
                                         <div class="text-center">
                                             <!-- Button trigger modal -->
                                             <button title="ইডিট এন্ট্রি" type="button" class="btn btn-info btn-xs"
@@ -220,7 +226,7 @@
                                                             
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn bg-gradient-primary">
+                                        <button type="submit" class="btn bg-gradient-success">
                                             জমা সাবমিট করুন
                                         </button>
                                     </div>
@@ -237,14 +243,6 @@
                     </div>
                     <!-- /.col -->
                     </div>
-                    <fieldset class="border p-2">
-                        <legend class="w-auto">নতুন বাকি এন্ট্রি করুন</legend>
-                        
-                    </fieldset>
-                    <fieldset class="border p-2">
-                        
-                    </fieldset>
-                    
                 </div>
             </div>
         </div>

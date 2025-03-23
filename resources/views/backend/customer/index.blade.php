@@ -48,7 +48,7 @@
                         name: 'DT_RowIndex',
                     }
                     , {
-                        data: 'name',
+                        data: 'name_link',
                         name: 'name'
                     },
                     {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('customer_ladgers', function (Blueprint $table) {
             $table->id();
             $table->date('date')->default(now());
-            $table->decimal('amount', 10, 2);
+            $table->integer('amount');
             $table->enum('type', ['due', 'deposit']);
             $table->text('details')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1=Active, 0=Inactive');

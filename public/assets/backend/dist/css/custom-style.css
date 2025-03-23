@@ -114,3 +114,6 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-head
     padding: 0.46875rem 0.75rem;
     height: calc(2.25rem + 2px);
 }
+.bg-light-success{
+    background-color: #f0fff2 !important;
+}
