@@ -12,6 +12,7 @@ class CustomerDueBook extends Model
     protected $fillable = [
         'start_date',
         'close_date',
+        'book_no',
         'customer_id',
         'created_by',
         'updated_by',

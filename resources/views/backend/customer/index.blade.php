@@ -18,7 +18,7 @@
                         <th>গ্রাহকের নাম</th>
                         <th> মোবাইল নাম্বার </th>
                         <th>ঠিকানা</th>
-                        <th>মোট বাকি</th>
+                        <th>মোট বাকি / জমা</th>
                         <th width="10%" data-orderable="false">
                             ---
                         </th>

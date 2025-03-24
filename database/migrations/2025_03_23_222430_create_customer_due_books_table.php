@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('start_date')->default(now());
             $table->date('close_date')->nullable();
+            $table->tinyInteger('book_no');
             $table->foreignId('customer_id')->constrained('customers');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');

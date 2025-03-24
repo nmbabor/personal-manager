@@ -17,22 +17,26 @@
                     @endphp
                     <table class="table table-bordered table-min-padding">
                         <tr>
-                            <td width="25%"><b>গ্রাহকের নাম:</b> {{ $customer->name }} </td>
+                            <td width="25%"><b>গ্রাহকের নাম:</b> {{ $customer->name }} <i class="fa {!! $customer->status == 1 ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' !!}"> </i> </td>
                             <td><b>মোবাইল নাম্বার:</b> {{ $customer->mobile_no ?? '' }} </td>
                             <td><b>ওয়ার্ড:</b> {{ $customer->word_no }} </td>
                         </tr>
                         <tr>
                             <td><b>ঠিকানা:</b> {{ $customer->address }} </td>
                             <td><b>পিতার নাম:</b> {{ $customer->father_name }} </td>
-                            <td><b>স্ট্যাটাস:</b> {{ $customer->status == 1 ? 'একটিভ' : 'ইনেক্টিভ' }} </td>
+                            <td>
+                                @if($customer->dueBooks->count() > 1)
+                                    <a href="{{ route('customers.old-due-books', $customer->id) }}" class="btn btn-xs btn-danger text-right"> <i class="fa fa-file"></i> &nbsp; পুরানো খাতা দেখুন </a>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="3" class="text-center"> 
                                 <h5> <b>মোট {{$dueTitle}}:</b> 
                                     @if($currentDue>0)
-                                        <span class="text-danger"> {{ number_format($currentDue, 0, '.', ',') }} টাকা </span>
+                                        <span class="text-danger"> {{ en2bn(number_format($currentDue, 0, '.', ',')) }} টাকা </span>
                                     @else
-                                        <span class="text-success"> {{ number_format(($currentDue * (-1)), 0, '.', ',') }} টাকা </span>
+                                        <span class="text-success"> {{ en2bn(number_format(($currentDue * (-1)), 0, '.', ',')) }} টাকা </span>
                                     @endif
                                 </h5> 
                             </td>
@@ -44,7 +48,9 @@
 
                 <div class="col-md-8 table-responsive">
                     @if(count($allData)>0)
-                    <h6> বাকি এবং জমা হিসাব @if(isset($dueBook->start_date))<small> (শুরুঃ {{date('d-m-Y',strtotime($dueBook->start_date))}}) </small> @endif : </h6>
+                    <h6> বাকি এবং জমা হিসাব @if(isset($dueBook->start_date))<small> (খাতা নং - {{en2bn($dueBook->book_no)}}, শুরুঃ {{en2bn(date('d-m-Y',strtotime($dueBook->start_date)))}}) </small> @endif : 
+                    
+                    </h6>
                     <table class="table table-bordered table-hover table-min-padding ">
                         <thead>
                             <tr class="text-center">
@@ -64,16 +70,16 @@
                         <tbody>
                             @foreach ($allData as $key => $data)
                                 <tr class="{{($data->type != 'due') ? 'bg-light-success' : ''}}">
-                                    <td>{{ date('d-m-Y', strtotime($data->date)) }}</td>
+                                    <td>{{ en2bn(date('d-m-Y', strtotime($data->date))) }}</td>
                                     <td>{{ $data->details }}</td>
                                     <td class="text-right">
                                         @if ($data->type == 'due')
-                                            {{ number_format($data->amount, 0, '.', ',') }}/-
+                                            {{ en2bn(number_format($data->amount, 0, '.', ',')) }}/-
                                         @endif
                                     </td>
                                     <td class="text-right">
                                         @if ($data->type != 'due')
-                                           <span class="px-2"> {{ number_format($data->amount, 0, '.', ',') }}/- </span>
+                                           <span class="px-2"> {{ en2bn(number_format($data->amount, 0, '.', ',')) }}/- </span>
                                         @endif
                                     </td>
                                     <td>
@@ -157,9 +163,9 @@
                         <tfoot>
                             <tr class="bg-secondary">
                                 <th colspan="2" class="text-right"> <b>মোট টাকা:</b> </th>
-                                <th class="text-right"> <b>{{ number_format($totalDue, 0, '.', ',') }}/-
+                                <th class="text-right"> <b>{{ en2bn(number_format($totalDue, 0, '.', ',')) }}/-
                                     </b> </th>
-                                <th class="text-right"> <b>{{ number_format($totalDeposit, 0, '.', ',') }}/-
+                                <th class="text-right"> <b>{{ en2bn(number_format($totalDeposit, 0, '.', ',')) }}/-
                                     </b> </th>
                                 <th></th>
                             </tr>
@@ -167,9 +173,9 @@
                                 <th colspan="2" class="text-right"> <b>বর্তমান {{$dueTitle}}:</b> </th>
                                 <th colspan="2" class="text-right"> 
                                     @if($currentDue>0)
-                                    <b>{{ number_format($currentDue, 0, '.', ',') }}/-</b>
+                                    <b>{{ en2bn(number_format($currentDue, 0, '.', ',')) }}/-</b>
                                     @else
-                                    <b>{{ number_format(($currentDue * (-1)), 0, '.', ',') }}/-</b>
+                                    <b>{{ en2bn(number_format(($currentDue * (-1)), 0, '.', ',')) }}/-</b>
                                     @endif
                                  </th>
                                 
@@ -297,6 +303,7 @@
                     <!-- /.col -->
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
