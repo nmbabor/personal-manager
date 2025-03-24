@@ -14,7 +14,10 @@ class CustomerLadger extends Model
     {
         return $this->belongsTo(customerDueBook::class);
     }
-
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
