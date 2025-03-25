@@ -1,9 +1,9 @@
-@extends('frontend.authentication.master')
+@extends('auth.master')
 
-@section('title', 'Otp Verify')
+@section('title', 'Reset Password')
 
 @section('content')
-    <form action="{{ route('login.otp') }}" method="post" class="authentication-form px-lg-5 forgot-form">
+    <form action="{{ route('password.reset') }}" method="post" class="authentication-form px-lg-5">
         @csrf
         <div class="authentication-form-header text-center">
             <a href="{{ route('frontend.home') }}" class="logo">
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="authentication-form-footer">
-            <p>Didn’t receive the email? Click to <a href="{{ route('resend.login.otp') }}">resend </a></p>
+            <p>Didn’t receive the email? Click to <a href="{{ route('resend.otp') }}">resend </a></p>
             <p>Back to <a href="{{ route('login') }}">Log in </a></p>
         </div>
     </form>

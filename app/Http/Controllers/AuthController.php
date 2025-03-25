@@ -52,7 +52,7 @@ class AuthController extends Controller
             if (auth()->user()) {
                 return $this->userRedirect();
             } else {
-                return view('frontend.authentication.login');
+                return view('auth.login');
             }
         }
     }
@@ -86,7 +86,7 @@ class AuthController extends Controller
                 return back()->with('error', 'Something went wrong');
             }
         } else {
-            return view('frontend.authentication.sign-up');
+            return view('auth.sign-up');
         }
     }
 
@@ -130,7 +130,7 @@ class AuthController extends Controller
                 return back()->with('error', 'User not found');
             }
         } else {
-            return view('frontend.authentication.forget-password');
+            return view('auth.forget-password');
         }
     }
 
@@ -182,7 +182,7 @@ class AuthController extends Controller
                 return redirect()->route('forget.password')->with('error', 'Something went wrong');
             }
         } else {
-            return view('frontend.authentication.new-password');
+            return view('auth.new-password');
         }
     }
 
@@ -215,7 +215,7 @@ class AuthController extends Controller
                 return back()->with('error', 'Invalid otp');
             }
         } else {
-            return view('frontend.authentication.reset');
+            return view('auth.reset');
         }
     }
 

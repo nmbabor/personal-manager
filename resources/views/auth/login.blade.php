@@ -1,9 +1,9 @@
-@extends('frontend.authentication.master')
+@extends('auth.master')
 
 @section('title', 'Login')
 
 @section('content')
-    <form action="{{ route('login') }}" method="post" class="authentication-form px-lg-5 forgot-form needs-validation"
+    <form action="{{ route('login') }}" method="post" class="authentication-form px-lg-5 needs-validation"
         novalidate>
         @csrf
         <div class="authentication-form-header text-center">
@@ -11,15 +11,15 @@
                 <img src="{{ imageRecover(readconfig('site_logo')) }}" alt="{{ readconfig('site_name') }}" height="65px"
                     style="margin:0 auto;">
             </a>
-            <h3 class="form-title">Sign in</h3>
-            <p class="form-des">Sign in to access your account.</p>
+            <h3 class="form-title"> লগইন করুন </h3>
+            <p class="form-des">{{readConfig('site_name')}}</p>
         </div>
         <div class="authentication-form-content">
             <div class="row g-4">
 
                 <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">ইমেইল</label>
                         <input type="text" class="form-control" id="email" placeholder="Enter email"
                             autocomplete="off" name="email" required>
                         <div class="invalid-feedback">
@@ -30,7 +30,7 @@
 
                 <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">পাসওয়ার্ড</label>
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
                             autocomplete="off" name="password" required>
                         <div class="invalid-feedback">
@@ -101,7 +101,7 @@
 
                 <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
-                        <button type="submit" class="create-account-btn w-100">Sign In</button>
+                        <button type="submit" class="create-account-btn w-100">লগইন</button>
                     </div>
                 </div>
 

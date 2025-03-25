@@ -1,18 +1,18 @@
-@extends('frontend.authentication.master')
+@extends('auth.master')
 
 @section('title', 'Forgot Password')
 
 @section('content')
     <form action="{{ route('forget.password') }}" method="post"
-        class="authentication-form px-lg-5 forgot-form needs-validation" novalidate>
+        class="authentication-form px-lg-5 needs-validation" novalidate>
         @csrf
         <div class="authentication-form-header text-center">
             <a href="{{ route('frontend.home') }}" class="logo">
                 <img src="{{ imageRecover(readconfig('site_logo')) }}" alt="{{ readconfig('site_name') }}" width="200px"
                     style="margin:0 auto;">
             </a>
-            <h3 class="form-title">Sign in</h3>
-            <p class="form-des">Welcome back! Sign in to access your account.</p>
+            <h3 class="form-title">পাসওয়ার্ড ভুলে গেছেন?</h3>
+            <p class="form-des">আপনার পাসওয়ার্ড রিসেট করুন</p>
         </div>
         <div class="authentication-form-content">
             <div class="row g-4">

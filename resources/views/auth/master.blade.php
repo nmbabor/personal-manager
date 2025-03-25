@@ -15,7 +15,19 @@
     <!-- BOOTSTRAP CSS (5.3) -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
     <!-- APP-CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}?v=1">
+    <style>
+        .authentications{
+            justify-content: center;
+        }
+        .authentications-wrapper{
+            width: 600px;
+            padding: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+      
+    </style>
     @stack('style')
 </head>
 
@@ -24,14 +36,8 @@
 
     <!-- AUTHENTICATION-START (LOGIN) -->
     <section class="authentications">
-        <div class="left-content">
-            <div class="text-center">
-                <h1> Welcome to <b>{{readConfig('site_name')}}</b> </h1>
-                <h4>{{readConfig('sub_title')}}</h4>
-                <img class="img-responsive" src="{{ asset('assets/images/dupkt-logo.png') }}" alt="Authentication">
-            </div>
-        </div>
-        <div class="right-content">
+        
+        <div class="authentications-wrapper">
             @yield('content')
         </div>
     </section>

@@ -1,4 +1,4 @@
-@extends('frontend.authentication.master')
+@extends('auth.master')
 
 @section('title', 'Signup')
 
