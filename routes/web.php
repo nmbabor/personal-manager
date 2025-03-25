@@ -68,9 +68,12 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('backend.admin.dashboard');
 
     Route::resource('customers','Backend\CustomerController');
-    Route::post('customer-ladger','Backend\CustomerController@ladgerCreate')->name('customers.ladger.store');
-    Route::put('customer-ladger/{id}','Backend\CustomerController@ladgerUpdate')->name('customers.ladger.update');
-    Route::delete('customer-ladger/{id}','Backend\CustomerController@ladgerDelete')->name('customers.ladger.delete');
+    Route::post('customer-ladger','Backend\DueBookController@ladgerCreate')->name('customers.ladger.store');
+    Route::put('customer-ladger/{id}','Backend\DueBookController@ladgerUpdate')->name('customers.ladger.update');
+    Route::delete('customer-ladger/{id}','Backend\DueBookController@ladgerDelete')->name('customers.ladger.delete');
+    Route::get('customer-due-book-close/{id}','Backend\DueBookController@dueBookClose')->name('customers.due-book.close');
+    Route::get('customer-old-due-book/{id}','Backend\DueBookController@oldDueBooks')->name('customers.old-due-books');
+    Route::get('customer-old-due-book-show/{id}','Backend\DueBookController@oldDueBookDetails')->name('customers.old-due-book.show');
 
     Route::resource('text-slider','Backend\TextSliderController');
     Route::resource('projects','Backend\ProjectController');

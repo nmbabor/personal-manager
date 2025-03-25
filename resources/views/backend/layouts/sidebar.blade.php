@@ -4,75 +4,33 @@
     <!-- Sidebar Menu -->
     <nav class="mt-1">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item d-none">
-                <a href="{{ url('/') }}" target="_blank" class="nav-link">
-                    <i class="nav-icon fas fa-file"></i>
-                    <p>
-                        Visit website
-                    </p>
-                </a>
-            </li>
+            
             <li class="nav-item">
                 <a href="{{ route('backend.admin.dashboard') }}"
                     class="nav-link {{ menuActive('backend.admin.dashboard') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
-                        Dashboard
+                        ড্যাসবোর্ড
                     </p>
                 </a>
             </li>
 
             @if(auth()->user()->type== 'Admin')
-            <li class="nav-item d-none">
-                <a href="#" class="nav-link">
-                    <i class="fab fa-blogger-b nav-icon"></i>
-                    <p>
-                        Blogs
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-chevron-circle-right nav-icon"></i>
-                            <p>
-                                <span class="text-lightblue">Blog</span>
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('backend.admin.blogs.create') }}"
-                                    class="nav-link {{ menuActive('backend.admin.blogs.create') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Add New</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('backend.admin.blogs') }}"
-                                    class="nav-link {{ menuActive(['backend.admin.blogs','backend.admin.blogs.edit']) ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Blog List</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('categories.index') }}"
-                            class="nav-link {{ menuActive('categories.*') ? 'active' : '' }}">
-                            <i class="fas fa-chevron-circle-right nav-icon"></i>
-                            <p>Blog Category</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
             <li class="nav-item">
                 <a href="{{ route('customers.index') }}"
                     class="nav-link {{ menuActive('customers.index') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
                         গ্রাহক লিস্ট
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('customers.create') }}"
+                    class="nav-link {{ menuActive('customers.create') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>
+                       নতুন গ্রাহক তৈরি
                     </p>
                 </a>
             </li>

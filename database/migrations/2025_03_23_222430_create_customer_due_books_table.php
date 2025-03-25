@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_ladgers', function (Blueprint $table) {
+        Schema::create('customer_due_books', function (Blueprint $table) {
             $table->id();
-            $table->date('date')->default(now());
-            $table->integer('amount');
-            $table->enum('type', ['due', 'deposit']);
-            $table->text('details')->nullable();
-            $table->tinyInteger('status')->default(1)->comment('1=Active, 0=Inactive');
+            $table->date('start_date')->default(now());
+            $table->date('close_date')->nullable();
+            $table->tinyInteger('book_no');
             $table->foreignId('customer_id')->constrained('customers');
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customer_ladgers');
+        Schema::dropIfExists('customer_due_books');
     }
 };

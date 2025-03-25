@@ -345,5 +345,23 @@ function getPageTitle($url) {
  function en2bn($number) {
     $bn = array("১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "০");
     $en = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
+    $months = [
+        'January' => 'জানুয়ারী',
+        'February' => 'ফেব্রুয়ারী',
+        'March' => 'মার্চ',
+        'April' => 'এপ্রিল',
+        'May' => 'মে',
+        'June' => 'জুন',
+        'July' => 'জুলাই',
+        'August' => 'আগস্ট',
+        'September' => 'সেপ্টেম্বর',
+        'October' => 'অক্টোবর',
+        'November' => 'নভেম্বর',
+        'December' => 'ডিসেম্বর'
+    ];
+    foreach ($months as $enMonth => $bnMonth) {
+        $number = str_replace($enMonth, $bnMonth, $number);
+    }
     return str_replace($en, $bn, $number);
 }
+

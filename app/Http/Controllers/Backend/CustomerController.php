@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Backend\DueBookController;
 use App\Models\Customer;
 use App\Models\CustomerLadger;
+use App\Models\CustomerDueBook;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -21,24 +23,20 @@ class CustomerController extends Controller
             return DataTables::of($allData)
                 ->addIndexColumn()
                 ->addColumn('DT_RowIndex','')
-                ->editColumn('status', function ($data) {
-                    if($data->status == 1){
-                        return "<span class='badge bg-success'><i class='fas fa-check'></i></span>";
-                    }else{
-                        return "<span class='badge bg-danger'>ইনেক্টিভ</span>";
-                    }
-                })
                 ->editColumn('name_link','<a href="{{ route(\'customers.show\', $id) }}">{{ $name }} </a>')
                 ->addColumn('total_due', function ($data) {
-                    $totalDue = CustomerLadger::where('customer_id', $data->id)
-                                            ->where('type', 'due')
-                                            ->where('status', 1)
-                                            ->sum('amount');
-                    $totalDeposit = CustomerLadger::where('customer_id', $data->id)
-                                                ->where('type', 'deposit')
-                                                ->where('status', 1)
-                                                ->sum('amount');
-                    return $totalDue - $totalDeposit;
+                    $dueBook = CustomerDueBook::where('customer_id', $data->id)->where('close_date',null)->first();
+                    if($dueBook){
+                        $totalDue = $dueBook->ladgers->where('type', 'due')->sum('amount');
+                        $totalDeposit = $dueBook->ladgers->where('type', 'deposit')->sum('amount');
+                        $currentDue =  $totalDue - $totalDeposit;
+                        if($currentDue < 0){
+                            return en2bn(($currentDue * (-1))).'/- (জমা)';
+                        }
+                        return en2bn($currentDue) . '/-';
+                    }
+                    return 0;
+                    
                 })
                 ->addColumn(
                     'action',
@@ -59,7 +57,7 @@ class CustomerController extends Controller
                     </a>
                 </div>'
                 )
-                ->rawColumns(['name_link','status','total_due', 'action'])
+                ->rawColumns(['name_link','total_due', 'action'])
                 ->toJson();
         }
         
@@ -101,7 +99,7 @@ class CustomerController extends Controller
                     'date' => now(),
                     'details' => $request->details,
                 ];
-                $this->ladgerCreate(new Request($ladgerData));
+                new DueBookController()->ladgerCreate(new Request($ladgerData));
             }
         
         return to_route('customers.index')->with('success', 'গ্রাহক তৈরি সফল হয়েছে');
@@ -115,16 +113,27 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer, Request $request)
     {
-        $allData = $customer->ladgers->where('status', 1);
-        if(isset($request->order)){
-            $allData = $allData->sortByDesc('id');
+        $totalDue = 0;
+        $totalDeposit = 0;
+        $currentDue = 0;
+        $lastId = null;
+        $allData = [];
+        $dueBook = $customer->dueBooks->where('close_date',null)->first();
+        if($dueBook){
+            // calculate total due, deposit and current due
+            $totalDue = $dueBook->ladgers->where('type', 'due')->sum('amount');
+            $totalDeposit = $dueBook->ladgers->where('type', 'deposit')->sum('amount');
+            $currentDue =  $totalDue - $totalDeposit;
+            // get last ledger id
+            if($dueBook->ladgers->count() > 0){
+                $lastId = $dueBook->ladgers->sortByDesc('id')->first()->id;
+            }
+            $allData = $dueBook->ladgers;
+            if(isset($request->order)){
+                $allData = $allData->sortByDesc('id');
+            }
         }
-        $lastId = $customer->ladgers->where('status', 1)->sortByDesc('id')->first()->id ?? null;
-
-        $totalDue = $customer->ladgers->where('status', 1)->where('type', 'due')->sum('amount');
-        $totalDeposit = $customer->ladgers->where('status', 1)->where('type', 'deposit')->sum('amount');
-        $currentDue =  $totalDue - $totalDeposit;
-        return view('backend.customer.show',compact('customer','allData','lastId','currentDue'));
+        return view('backend.customer.show',compact('customer','allData','lastId','currentDue','totalDue','totalDeposit','dueBook'));
     }
 
     /**
@@ -166,69 +175,13 @@ class CustomerController extends Controller
             $customer->delete();
             return back()->with('success', 'গ্রাহক ডিলিট সফল হয়েছে');
         } catch (\Exception $e) {
-            // return [
-            //     'code' => $e->getCode(),
-            //     'message' => $e->getMessage(),
-            //     'file' => $e->getFile(),
-            //     'line' => $e->getLine(),
-            // ];
-            
             if ($e->getCode() == 1451) {
                 return back()->with('error', 'এই গ্রাহককে ডিলিট করা সম্ভব নয় কারণ তার হিসাব এন্ট্রি রয়েছে');
             }
-            return back()->with('error', 'এই গ্রাহক ডিলিট করা সম্ভব হয়নি');
+            return back()->with('error', 'এই গ্রাহককে ডিলিট করা সম্ভব নয় কারণ তার হিসাব এন্ট্রি রয়েছে');
         }
     }
 
-    public function ladgerCreate(Request $request)
-    {
-        $request->validate([
-            'amount' => 'required',
-            'type' => 'required',
-            'date' => 'required',
-            'details' => 'required',
-        ]);
+    
 
-        try {
-            $input = $request->except('_token');
-            $input['date'] = date('Y-m-d', strtotime($request->date));
-            $input['created_by'] = auth()->id();
-            $input['updated_by'] = auth()->id();
-            CustomerLadger::create($input);
-            $type = $request->type == 'due' ? 'বকেয়া' : 'জমা';
-            return back()->with('success', "$type এন্ট্রি সফল হয়েছে");
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
-    public function ladgerUpdate(Request $request, $id)
-    {
-        $request->validate([
-            'amount' => 'required',
-            'date' => 'required',
-            'details' => 'required',
-        ]);
-
-        try {
-            $input = $request->except('_token', '_method');
-            $input['date'] = date('Y-m-d', strtotime($request->date));
-            $input['updated_by'] = auth()->id();
-            $ladger = CustomerLadger::findOrFail($id);
-            $ladger->update($input);
-            $type = $ladger->type == 'due' ? 'বকেয়া' : 'জমা';
-            return back()->with('success', "$type এন্ট্রি আপডেট সফল হয়েছে");
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
-    public function ladgerDelete($id)
-    {
-        try {
-            $ladger = CustomerLadger::findOrFail($id);
-            $ladger->delete();
-            return back()->with('success', 'এন্ট্রি ডিলিট সফল হয়েছে');
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
-    }
 }

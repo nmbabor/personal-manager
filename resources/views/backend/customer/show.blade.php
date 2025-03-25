@@ -12,19 +12,34 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
+                    @php 
+                        $dueTitle = ($currentDue>0)?'বাকি':'জমা';
+                    @endphp
                     <table class="table table-bordered table-min-padding">
                         <tr>
-                            <td width="25%"><b>গ্রাহকের নাম:</b> {{ $customer->name }} </td>
+                            <td width="25%"><b>গ্রাহকের নাম:</b> {{ $customer->name }} <i class="fa {!! $customer->status == 1 ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' !!}"> </i> </td>
                             <td><b>মোবাইল নাম্বার:</b> {{ $customer->mobile_no ?? '' }} </td>
                             <td><b>ওয়ার্ড:</b> {{ $customer->word_no }} </td>
                         </tr>
                         <tr>
                             <td><b>ঠিকানা:</b> {{ $customer->address }} </td>
                             <td><b>পিতার নাম:</b> {{ $customer->father_name }} </td>
-                            <td><b>স্ট্যাটাস:</b> {{ $customer->status == 1 ? 'একটিভ' : 'ইনেক্টিভ' }} </td>
+                            <td>
+                                @if($customer->dueBooks->count() > 1)
+                                    <a href="{{ route('customers.old-due-books', $customer->id) }}" class="btn btn-xs btn-danger text-right"> <i class="fa fa-file"></i> &nbsp; পুরানো খাতা দেখুন </a>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="text-center"> <h5> <b>মোট বাকি:</b> <span class="text-danger"> {{ number_format($currentDue, 0, '.', ',') }} টাকা </span> </h5> </td>
+                            <td colspan="3" class="text-center"> 
+                                <h5> <b>মোট {{$dueTitle}}:</b> 
+                                    @if($currentDue>0)
+                                        <span class="text-danger"> {{ en2bn(number_format($currentDue, 0, '.', ',')) }} টাকা </span>
+                                    @else
+                                        <span class="text-success"> {{ en2bn(number_format(($currentDue * (-1)), 0, '.', ',')) }} টাকা </span>
+                                    @endif
+                                </h5> 
+                            </td>
                         </tr>
                         
                     </table>
@@ -32,6 +47,10 @@
                 
 
                 <div class="col-md-8 table-responsive">
+                    @if(count($allData)>0)
+                    <h6> বাকি এবং জমা হিসাব @if(isset($dueBook->start_date))<small> (খাতা নং - {{en2bn($dueBook->book_no)}}, শুরুঃ {{en2bn(date('d-m-Y',strtotime($dueBook->start_date)))}}) </small> @endif : 
+                    
+                    </h6>
                     <table class="table table-bordered table-hover table-min-padding ">
                         <thead>
                             <tr class="text-center">
@@ -41,9 +60,9 @@
                                 <th width="15%">জমা টাকা</th>
                                 <th width="10%" class="text-right">
                                     @if(request()->get('order') == 1)
-                                        <a href="{{ request()->url() }}"> <i class="fa fa-arrow-down"></i> </a>
+                                        <a href="{{ request()->url() }}"> <i class="fa fa-arrow-up"></i> </a>
                                     @else
-                                        <a href="{{ request()->fullUrlWithQuery(['order' => 1]) }}"> <i class="fa fa-arrow-up"></i> </a>
+                                        <a href="{{ request()->fullUrlWithQuery(['order' => 1]) }}"> <i class="fa fa-arrow-down"></i> </a>
                                     @endif
                                  </th>
                             </tr>
@@ -51,16 +70,16 @@
                         <tbody>
                             @foreach ($allData as $key => $data)
                                 <tr class="{{($data->type != 'due') ? 'bg-light-success' : ''}}">
-                                    <td>{{ date('d-m-Y', strtotime($data->date)) }}</td>
+                                    <td>{{ en2bn(date('d-m-Y', strtotime($data->date))) }}</td>
                                     <td>{{ $data->details }}</td>
                                     <td class="text-right">
                                         @if ($data->type == 'due')
-                                            {{ number_format($data->amount, 0, '.', ',') }}/-
+                                            {{ en2bn(number_format($data->amount, 0, '.', ',')) }}/-
                                         @endif
                                     </td>
                                     <td class="text-right">
                                         @if ($data->type != 'due')
-                                           <span class="px-2"> {{ number_format($data->amount, 0, '.', ',') }}/- </span>
+                                           <span class="px-2"> {{ en2bn(number_format($data->amount, 0, '.', ',')) }}/- </span>
                                         @endif
                                     </td>
                                     <td>
@@ -140,7 +159,47 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        @if(count($allData)>1)
+                        <tfoot>
+                            <tr class="bg-secondary">
+                                <th colspan="2" class="text-right"> <b>মোট টাকা:</b> </th>
+                                <th class="text-right"> <b>{{ en2bn(number_format($totalDue, 0, '.', ',')) }}/-
+                                    </b> </th>
+                                <th class="text-right"> <b>{{ en2bn(number_format($totalDeposit, 0, '.', ',')) }}/-
+                                    </b> </th>
+                                <th></th>
+                            </tr>
+                            <tr class="bg-info">
+                                <th colspan="2" class="text-right"> <b>বর্তমান {{$dueTitle}}:</b> </th>
+                                <th colspan="2" class="text-right"> 
+                                    @if($currentDue>0)
+                                    <b>{{ en2bn(number_format($currentDue, 0, '.', ',')) }}/-</b>
+                                    @else
+                                    <b>{{ en2bn(number_format(($currentDue * (-1)), 0, '.', ',')) }}/-</b>
+                                    @endif
+                                 </th>
+                                
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        @endif
                     </table>
+                    @if(count($allData)>1)
+                    <div class="col-md-12 text-right">
+                        @php
+                            $bookCloseRoute = route('customers.due-book.close', $customer->id);
+                        @endphp
+
+                        <a class="btn btn-xs btn-warning" 
+                        href="#" 
+                        onclick="if(confirm('আপনি কি নিশ্চিত যে আপনি নতুন খাতা খুলতে চান?')) { window.location.href='{{$bookCloseRoute}}'; }"
+                        >
+                             <i class="fa fa-plus-circle"></i> নতুন খাতা খুলুন </a>
+                    </div>
+                    @endif
+                    @else
+                    <p> এই গ্রাহকের কোন হিসাব এন্ট্রি নেই।</p>
+                    @endif
                     
                 </div>
                 <div class="col-md-4">
@@ -214,7 +273,7 @@
                                 <div class="form-group">
                                     <label class="col-md-12">জমার বিবরণ : </label>
                                     <div class="col-md-12">
-                                        <textarea class="form-control" placeholder="জমার বিবরণ" name="details"></textarea>
+                                        <textarea class="form-control" placeholder="জমার বিবরণ" name="details">জমা</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -244,34 +303,8 @@
                     <!-- /.col -->
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 @endsection
-@push('script')
-    <script>
-        $(document).ready(function() {
-            $("#totalMonths").on('keyup click blur', function() {
-                let isChecked = $("#special_consider").prop("checked");
-                if(!isChecked){
-                    totalAmountCalculation()
-                }
-            });
-
-            function totalAmountCalculation(){
-                let totalMonths = parseInt($('#totalMonths').val());
-                let amount = parseInt($('#monthly_amount').val());
-                let total = totalMonths * amount;
-                $("#payableAmounts").val(total);
-            }
-
-            $('#special_consider').change(function() {
-                if (this.checked) {
-                    $('#payableAmounts').val('0');
-                } else {
-                    totalAmountCalculation()
-                }
-            });
-        });
-    </script>
-@endpush
