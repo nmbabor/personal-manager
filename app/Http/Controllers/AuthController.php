@@ -233,11 +233,7 @@ class AuthController extends Controller
     public function userDash()
     {
         if (auth()->user()) {
-            if (auth()->user()->type == 'Admin') {
-                return redirect()->route('backend.admin.dashboard');
-            } else {
-                return redirect()->route('user.dashboard');
-            }
+            return redirect()->route('backend.admin.dashboard');
         } else {
             return redirect()->route('login')->with('error', 'You are not logged in');
         }

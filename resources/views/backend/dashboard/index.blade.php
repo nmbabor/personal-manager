@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 d-none">
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
@@ -35,7 +35,7 @@
                             <i class="ion ion-stats-bars"></i>
                         </div>
                         @if(Auth::user()->type == 'Admin')
-                            <a href="{{route('reports.monthly-collection')}}" class="small-box-footer">
+                            <a href="#" class="small-box-footer">
                                বিস্তারিত দেখুন
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 d-none">
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
@@ -54,14 +54,14 @@
                             <i class="ion ion-stats-bars"></i>
                         </div>
                         @if(Auth::user()->type == 'Admin')
-                            <a href="{{ route('backend.admin.user.create') }}" class="small-box-footer">
+                            <a href="#" class="small-box-footer">
                                 বিস্তারিত দেখুন <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         @endif
                     </div>
                 </div>
                 <!-- ./col -->
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
@@ -72,7 +72,7 @@
                             <i class="ion ion-pie-graph"></i>
                         </div>
                         @if(Auth::user()->type == 'Admin')
-                            <a href="{{route('reports.projects')}}" class="small-box-footer">
+                            <a href="{{route('customers.index')}}" class="small-box-footer">
                                 বিস্তারিত দেখুন
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>

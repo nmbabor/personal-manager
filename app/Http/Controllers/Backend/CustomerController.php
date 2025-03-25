@@ -99,7 +99,7 @@ class CustomerController extends Controller
                     'date' => now(),
                     'details' => $request->details,
                 ];
-                new DueBookController()->ladgerCreate(new Request($ladgerData));
+                app(DueBookController::class)->ladgerCreate(new Request($ladgerData));
             }
         
         return to_route('customers.index')->with('success', 'গ্রাহক তৈরি সফল হয়েছে');

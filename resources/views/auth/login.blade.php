@@ -142,8 +142,6 @@
                 </div>
             </div>
         </div>
-        <div class="authentication-form-footer d-none">
-            <p>Don’t have an account? <a href="{{ route('signup') }}">Sign up </a></p>
-        </div>
+        
     </form>
 @endsection
