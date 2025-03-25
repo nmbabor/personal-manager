@@ -1,62 +1,10 @@
 <?php
 
-use App\Models\Menu;
-use App\Models\Page;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Http;
 
-function paymentGateway()
-{
-    return ['cash'=>'Cash','bkash'=>'bKash','nagad'=>'Nagad','rocket'=>'Rocket','bank'=>'Bank'];
-}
-function years()
-{
-    $currentYear = date('Y');
-    $yearsArray = [];
-
-    for ($year = 2021; $year <= $currentYear; $year++) {
-        $yearsArray[$year] = $year;
-    }
-    return $yearsArray;
-}
-function months($isFull = 0)
-{
-    $monthsArray = [
-        1 => 'January',
-        2 => 'February',
-        3 => 'March',
-        4 => 'April',
-        5 => 'May',
-        6 => 'June',
-        7 => 'July',
-        8 => 'August',
-        9 => 'September',
-        10 => 'October',
-        11 => 'November',
-        12 => 'December'
-    ];
-    $monthsShort = [
-        1 => 'Jan',
-        2 => 'Feb',
-        3 => 'Mar',
-        4 => 'Apr',
-        5 => 'May',
-        6 => 'Jun',
-        7 => 'Jul',
-        8 => 'Aug',
-        9 => 'Sep',
-        10 => 'Oct',
-        11 => 'Nov',
-        12 => 'Dec'
-    ];
-    if($isFull){
-        return $monthsArray;
-    }else{
-        return $monthsShort;
-    }
-}
 
 function menuActive($data)
 {
@@ -122,15 +70,6 @@ if (!function_exists('docRecover')) {
     }
 }
 
-if (!function_exists('terms')) {
-
-    function terms()
-    {
-        return Page::where('status', 1)
-            ->where('title', 'like', '%term%')
-            ->first();
-    }
-}
 
 if (!function_exists('writeConfig')) {
     function writeConfig($key, $value)
@@ -185,12 +124,6 @@ if (!function_exists('nullImg')) {
     {
         return "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
     }
-}
-
-function menus()
-{
-    $menus = Menu::whereStatus(1)->with('subMenus')->orderBy('serial_num')->get();
-    return $menus;
 }
 
 
@@ -288,61 +221,7 @@ function fileUploadAndGetPath($file, $path = "/public/media/others")
     return substr($path . "/" . $file_name, 8);
 }
 
-function indexCheck($url)
-{
-    $searchUrl = 'https://webcache.googleusercontent.com/search?q=cache:' . urlencode($url);
-
-    $response = Http::get($searchUrl);
-
-    $code = $response->status();
-    if ($code == 200) {
-        $html = $response->body();
-        // Initialize a DOMDocument to parse the HTML
-        $dom = new DOMDocument();
-        libxml_use_internal_errors(true); // Suppress warnings
-        $dom->loadHTML($html);
-        libxml_use_internal_errors(false);
-
-        // Extract the page title
-        $title = $dom->getElementsByTagName('title')->item(0)->textContent;
-    } else {
-        $title = getPageTitle($url);
-    }
-
-    $result = [
-        'url' => $url,
-        'code' => $code,
-        'title' => $title,
-    ];
-    return (object) $result;
-}
-
-function getPageTitle($url) {
-    try {
-        $response = Http::get($url);
-
-        if ($response->successful()) {
-            $html = $response->body();
-
-            // Initialize a DOMDocument to parse the HTML
-            $dom = new DOMDocument();
-            libxml_use_internal_errors(true); // Suppress warnings
-            $dom->loadHTML($html);
-            libxml_use_internal_errors(false);
-
-            // Extract the page title
-            $title = $dom->getElementsByTagName('title')->item(0)->textContent;
-
-            return $title;
-        } else {
-            return "Not Found";
-        }
-    } catch (\Exception $e) {
-        // Handle the exception when an invalid URL is provided
-        return "Invalid URL";
-    }
-}
- function en2bn($number) {
+function en2bn($number) {
     $bn = array("১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "০");
     $en = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
     $months = [
