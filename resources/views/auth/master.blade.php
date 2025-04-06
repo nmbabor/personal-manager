@@ -26,6 +26,17 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        @media (max-width: 768px) {
+            .authentications-wrapper {
+                width: 90%;
+            }
+        }
+        @media (max-width: 450px) {
+            .authentications-wrapper {
+                padding: 20px;
+            }
+        }
       
     </style>
     @stack('style')

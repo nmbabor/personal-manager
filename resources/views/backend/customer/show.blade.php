@@ -15,34 +15,36 @@
                     @php 
                         $dueTitle = ($currentDue>0)?'বাকি':'জমা';
                     @endphp
-                    <table class="table table-bordered table-min-padding">
-                        <tr>
-                            <td width="25%"><b>গ্রাহকের নাম:</b> {{ $customer->name }} <i class="fa {!! $customer->status == 1 ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' !!}"> </i> </td>
-                            <td><b>মোবাইল নাম্বার:</b> {{ $customer->mobile_no ?? '' }} </td>
-                            <td><b>ওয়ার্ড:</b> {{ $customer->word_no }} </td>
-                        </tr>
-                        <tr>
-                            <td><b>ঠিকানা:</b> {{ $customer->address }} </td>
-                            <td><b>পিতার নাম:</b> {{ $customer->father_name }} </td>
-                            <td>
-                                @if($customer->dueBooks->count() > 1)
-                                    <a href="{{ route('customers.old-due-books', $customer->id) }}" class="btn btn-xs btn-danger text-right"> <i class="fa fa-file"></i> &nbsp; পুরানো খাতা দেখুন </a>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-center"> 
-                                <h5> <b>মোট {{$dueTitle}}:</b> 
-                                    @if($currentDue>0)
-                                        <span class="text-danger"> {{ en2bn(number_format($currentDue, 0, '.', ',')) }} টাকা </span>
-                                    @else
-                                        <span class="text-success"> {{ en2bn(number_format(($currentDue * (-1)), 0, '.', ',')) }} টাকা </span>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-min-padding">
+                            <tr>
+                                <td width="25%"><b style="white-space:nowrap">গ্রাহকের নাম:</b> {{ $customer->name }} <i class="fa {!! $customer->status == 1 ? 'fa-check-circle text-success' : 'fa-times-circle text-danger' !!}"> </i> </td>
+                                <td><b>মোবাইল নাম্বার:</b> {{ $customer->mobile_no ?? '' }} </td>
+                                <td><b>ওয়ার্ড:</b> {{ $customer->word_no }} </td>
+                            </tr>
+                            <tr>
+                                <td><b>ঠিকানা:</b> {{ $customer->address }} </td>
+                                <td><b>পিতার নাম:</b> {{ $customer->father_name }} </td>
+                                <td>
+                                    @if($customer->dueBooks->count() > 1)
+                                        <a href="{{ route('customers.old-due-books', $customer->id) }}" class="btn btn-xs btn-danger text-right"> <i class="fa fa-file"></i> &nbsp; পুরানো খাতা দেখুন </a>
                                     @endif
-                                </h5> 
-                            </td>
-                        </tr>
-                        
-                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-center"> 
+                                    <h5> <b>মোট {{$dueTitle}}:</b> 
+                                        @if($currentDue>0)
+                                            <span class="text-danger"> {{ en2bn(number_format($currentDue, 0, '.', ',')) }} টাকা </span>
+                                        @else
+                                            <span class="text-success"> {{ en2bn(number_format(($currentDue * (-1)), 0, '.', ',')) }} টাকা </span>
+                                        @endif
+                                    </h5> 
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </div>
                 </div>
                 
 

@@ -53,9 +53,6 @@
                             <input type="text" class="form-control" id="father_name" placeholder="পিতার নাম লিখুন"
                                 name="father_name" value="{{ old('father_name') }}">
                         </div>
-                        <div class="col-3 pl-0">
-                            <button type="submit" class="btn btn-block bg-gradient-primary">সাবমিট করুন</button>
-                        </div>
                     </div>
                     <div class="col-lg-6">
                         <fieldset class="border p-2">
@@ -73,6 +70,9 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <div class="col-12 pl-0 pt-1 mb-3">
+                            <button type="submit" class="btn btn-sm bg-success">সাবমিট করুন</button>
+                        </div>
                     </div>
                 </div>
             </form>
