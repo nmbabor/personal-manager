@@ -3,7 +3,7 @@
   'is_live' => '1',
   'close_msg' => 'Down for maintenance',
   'site_url' => 'http://localhost/shop-due-manager',
-  'site_name' => 'নুরনবি ট্রেডার্স',
+  'site_name' => 'Personal Due Manager',
   'site_logo' => 'assets/images/logo/logo.png',
   'app_name' => 'Shop Due Manager',
   'favicon_icon' => 'assets/images/logo/favicon.png',

@@ -15,7 +15,7 @@
                 </a>
             </li>
 
-            @if(auth()->user()->type== 'Admin')
+            
             <li class="nav-item">
                 <a href="{{ route('customers.index') }}"
                     class="nav-link {{ menuActive('customers.index') ? 'active' : '' }}">
@@ -53,6 +53,16 @@
                     </li>
                 </ul>
             </li>
+            @if(auth()->user()->type== 'Admin')
+            <li class="nav-item">
+                <a href="{{ route('backend.admin.users') }}"
+                    class="nav-link {{ menuActive('backend.admin.users') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        ইউজার লিস্ট
+                    </p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('backend.admin.settings.website.general') }}?active-tab=website-info"
                     class="nav-link {{ menuActive('backend.admin.settings.website.general') ? 'active' : '' }}">
@@ -62,8 +72,6 @@
                     </p>
                 </a>
             </li>
-            
-           
             @endif
         </ul>
     </nav>

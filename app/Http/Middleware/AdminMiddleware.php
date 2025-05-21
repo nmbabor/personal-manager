@@ -20,7 +20,7 @@ class AdminMiddleware
             if (Auth::user()->type == 'Admin') {
                 return $next($request);
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('backend.admin.dashboard');
             }
         } else {
             return redirect()->route('login')->with('error', 'You are not logged in');

@@ -65,6 +65,7 @@ class AuthController extends Controller
         if ($request->isMethod('post')) {
             $request->validate([
                 'name' => 'required',
+                'mobile_no' => 'required|unique:users,mobile_no',
                 'email' => 'email|required|unique:users',
                 'password' => 'required|confirmed|min:6'
             ]);
@@ -72,16 +73,17 @@ class AuthController extends Controller
             $newUser = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'mobile_no' => $request->mobile_no,
                 'password' => bcrypt($request->password),
                 'username' => uniqid(),
-                'type' => 'User'
+                'type' => 'User',
             ]);
 
             if ($newUser) {
                 $request->session()->regenerate();
                 Auth::login($newUser);
 
-                return redirect()->route('user.dashboard')->with('success', 'User registered successfully');
+                return redirect()->route('backend.admin.dashboard')->with('success', 'User registered successfully');
             } else {
                 return back()->with('error', 'Something went wrong');
             }

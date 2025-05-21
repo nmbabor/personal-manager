@@ -10,13 +10,13 @@
                 <img src="{{ imageRecover(readconfig('site_logo')) }}" alt="{{ readconfig('site_name') }}" width="200px"
                     style="margin:0 auto;">
             </a>
-            <h3 class="form-title">Create Account</h3>
-            <p class="form-des">Sign up now and explore.</p>
+            <h3 class="form-title">একাউন্ট খুলুন</h3>
+            <p class="form-des">লেনদেনের সহজ ও স্মার্ট সমাধান এখন হাতের নাগালে</p>
         </div>
         <div class="authentication-form-content">
             <div class="row g-4">
                 <!-- name -->
-                <div class="col-sm-6 col-lg-12 col-xl-6">
+                <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
                         <label for="fullName" class="form-label">Name</label>
                         <input type="text" class="form-control" id="fullName" placeholder="Enter full name"
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <!-- email -->
-                <div class="col-sm-6 col-lg-12 col-xl-6">
+                <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" placeholder="Enter email"
@@ -37,8 +37,19 @@
                         </div>
                     </div>
                 </div>
+                 <!-- Mobile Number -->
+                 <div class="col-sm-12 col-lg-12 col-xl-12">
+                    <div class="form-group">
+                        <label for="mobile_no" class="form-label">Mobile Number</label>
+                        <input type="number" min="1" class="form-control" id="mobile_no" placeholder="Enter Mobile Number"
+                            autocomplete="off" name="mobile_no" value="{{ old('mobile_no') }}" required>
+                        <div class="invalid-feedback">
+                            Please enter a valid mobile no.
+                        </div>
+                    </div>
+                </div>
                 <!-- password -->
-                <div class="col-sm-6 col-lg-12 col-xl-6">
+                <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" placeholder="Enter password"
@@ -85,7 +96,7 @@
                     </div>
                 </div>
                 <!-- confirm password -->
-                <div class="col-sm-6 col-lg-12 col-xl-6">
+                <div class="col-sm-12 col-lg-12 col-xl-12">
                     <div class="form-group">
                         <label for="confirmPassword" class="form-label">Confirm Password</label>
                         <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"
@@ -165,7 +176,7 @@
                 </div>
 
                 <!-- google sign in  -->
-                <div class="col-sm-6 col-lg-12 col-xl-6">
+                <div class="col-sm-6 col-lg-12 col-xl-6 d-none">
                     <div class="form-group">
                         <a href="{{ route('auth.google') }}" class="google-btn w-100">
                             <span class="icon">
@@ -204,7 +215,7 @@
 
             </div>
         </div>
-        <div class="authentication-form-footer">
+        <div class="authentication-form-footer text-start">
             <p>Already have an acooount ? <a href="{{ route('login') }}">Log in </a></p>
         </div>
     </form>

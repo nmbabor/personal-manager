@@ -4,10 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Scopes\UserScope;
 
 class CustomerLadger extends Model
 {
     use HasFactory;
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new UserScope);
+    }
+    
     protected $fillable = ['status', 'amount', 'type', 'date', 'details','customer_due_book_id', 'customer_id', 'created_by', 'updated_by'];
 
     public function customerDueBook()

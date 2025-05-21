@@ -7,6 +7,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserManagementController;
 use App\Http\Controllers\Backend\WebsiteSettingController;
+use App\Http\Controllers\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +30,15 @@ Route::middleware(['auth'])->group(function () {
 Route::match(['get', 'post'], 'login', [AuthController::class, 'login'])->name('login');
 
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-//Route::match(['get', 'post'], 'sign-up', [AuthController::class, 'signup'])->name('signup');
+Route::match(['get', 'post'], 'sign-up', [AuthController::class, 'signup'])->name('signup');
 Route::match(['get', 'post'], 'forget-password', [AuthController::class, 'forgetPassword'])->name('forget.password');
 Route::match(['get', 'post'], 'new-password', [AuthController::class, 'newPassword'])->name('new.password');
 Route::match(['get', 'post'], 'password-reset', [AuthController::class, 'passwordReset'])->name('password.reset');
 Route::get('resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
+
+// google auth
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.handle.callback');
 
 // ====================== BACKEND =======================
 
@@ -44,7 +49,7 @@ Route::prefix('user')->middleware(['auth'])->group(function () {
     Route::post('update-profile', [AuthController::class, 'updateProfile'])->name('user.update.profile');
 });
 
-Route::prefix('admin')->middleware(['admin'])->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('backend.admin.dashboard');
 
     Route::resource('customers','Backend\CustomerController');
@@ -60,7 +65,7 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     });
    
-    Route::prefix('users')->group(function () {
+    Route::prefix('users')->middleware(['admin'])->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('backend.admin.users');
         Route::get('suspend/{id}/{status}', [UserManagementController::class, 'suspend'])->name('backend.admin.user.suspend');
         Route::match(['get', 'post'], 'create', [UserManagementController::class, 'create'])->name('backend.admin.user.create');

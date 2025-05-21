@@ -14,7 +14,7 @@ class UserManagementController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::with('country')->where('type','User')->orderBy('id','DESC');
+            $users = User::where('type','User')->orderBy('id','DESC');
 
             return DataTables::of($users)
                 ->addIndexColumn()
@@ -22,16 +22,11 @@ class UserManagementController extends Controller
                 ->addColumn('created', function ($data) {
                     return date('d M, Y', strtotime($data->created_at));
                 })
-                ->addColumn('country_name', function ($data) {
-                    return $data->country->name ?? '';
-                })
+               
                 ->addColumn(
                     'action',
                     '<div class="action-wrapper">
-                    <a class="btn btn-sm bg-success"
-                        href="{{ route(\'deposit.user-details\', $id) }}">
-                        <i class="fas fa-eye"></i>
-                    </a>
+                    
                      <a class="btn btn-sm bg-gradient-primary"
                         href="{{ route(\'backend.admin.user.edit\', $id) }}">
                         <i class="fas fa-edit"></i>
@@ -65,14 +60,8 @@ class UserManagementController extends Controller
                         return '<span class="badge badge-pill badge-danger">Suspended</span>';
                     }
                 })
-                ->addColumn('due', function ($data) {
-                    if(count($data->dueMonths())>0){
-                        return '<span class="badge badge-danger">'.count($data->dueMonths()).'</span>';
-                    }else{
-                        return "";
-                    }
-                })
-                ->rawColumns(['thumb', 'created', 'action', 'suspend','due'])
+               
+                ->rawColumns(['created', 'action', 'suspend'])
                 ->toJson();
         }
 
@@ -116,8 +105,6 @@ class UserManagementController extends Controller
             $input = $request->except('_token');
             $input['password'] = bcrypt($request->password);
             $input['username'] = uniqid();
-            $input['join_date'] = date('Y-m-d',strtotime($request->join_date));
-            $input['deposit_start_date'] = date('Y-m-d',strtotime($request->deposit_start_date));
 
             if ($request->hasFile("profile_image")) {
                 $input['profile_image'] = uploadImageAndGetPath($request->file("profile_image"), "/assets/images/users");
@@ -129,9 +116,7 @@ class UserManagementController extends Controller
 
             return to_route('backend.admin.users')->with('success', 'User created successfully');
         } else {
-            $country = Country::whereStatus(1)->pluck('name','id');
-            $words = [1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9];
-            return view('backend.users.create',compact('country','words'));
+            return view('backend.users.create');
         }
     }
 
@@ -159,8 +144,6 @@ class UserManagementController extends Controller
 
                 $input['profile_image'] = uploadImageAndGetPath($request->file("profile_image"), "/assets/images/users");
             }
-            $input['join_date'] = date('Y-m-d',strtotime($request->join_date));
-            $input['deposit_start_date'] = date('Y-m-d',strtotime($request->deposit_start_date));
             $user->update($input);
 
            /*  $role = Role::find($request->role);
@@ -171,9 +154,7 @@ class UserManagementController extends Controller
             if ($id == auth()->id()) {
                 return to_route('user.profile');
             }
-            $country = Country::whereStatus(1)->pluck('name','id');
-            $words = [1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9];
-            return view('backend.users.edit', compact('user','country','words'));
+            return view('backend.users.edit', compact('user'));
         }
     }
 

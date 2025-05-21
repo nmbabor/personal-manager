@@ -5,6 +5,12 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
+                <div class="col-12 mb-2">
+                    <div class="alert alert-primary" role="alert">
+                        <h4 class="alert-heading">স্বাগতম, {{ Auth::user()->name }}!</h4>
+                        <p>আপনার ড্যাশবোর্ডে স্বাগতম। এখানে আপনি আপনার সমস্ত তথ্য দেখতে এবং পরিচালনা করতে পারবেন।</p>
+                    </div>
+                </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <!-- small box -->
                     <div class="small-box bg-info">

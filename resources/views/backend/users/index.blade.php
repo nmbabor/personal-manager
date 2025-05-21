@@ -19,10 +19,7 @@
                                     <th data-orderable="false">#</th>
                                     <th>Name</th>
                                     <th>Mobile</th>
-                                    <th>Country</th>
-                                    <th>Amount</th>
-                                    <th>Word</th>
-                                    <th>Due Month</th>
+                                    <th>Email</th>
                                     <th>Status</th>
                                     <th data-orderable="false">
                                         Action
@@ -63,21 +60,10 @@
                         name: 'mobile_no'
                     },
                     {
-                        data: 'country_name',
-                        name: 'country.name'
+                        data: 'email',
+                        name: 'email'
                     },
-                    {
-                        data: 'monthly_amount',
-                        name: 'monthly_amount'
-                    },
-                    {
-                        data: 'word_no',
-                        name: 'word_no'
-                    },
-                    {
-                        data: 'due',
-                        name: 'due'
-                    },
+                    
                      {
                         data: 'suspend',
                         name: 'suspend'
