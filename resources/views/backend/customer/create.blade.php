@@ -22,7 +22,14 @@
                                 name="name" value="{{ old('name') }}" required>
                         </div>
                     </div>
-                    
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="father_name" class="form-label">পিতার নাম : </label>
+                            <input type="text" class="form-control" id="father_name" placeholder="পিতার নাম লিখুন"
+                                name="father_name" value="{{ old('father_name') }}">
+                        </div>
+                    </div>
+                   
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="mobileNumber" class="form-label">মোবাইল নাম্বার<span class="text-danger">*</span> :</label>
@@ -40,23 +47,10 @@
                                 name="address">{{ old('address') }}</textarea>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="word_no" class="form-label"> ওয়ার্ড নং :</label>
-                            {{Form::select('word_no',$words,'',['class'=>'form-control','placeholder'=>'ওয়ার্ড নির্বাচন করুন'])}}
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="father_name" class="form-label">পিতার নাম : </label>
-                            <input type="text" class="form-control" id="father_name" placeholder="পিতার নাম লিখুন"
-                                name="father_name" value="{{ old('father_name') }}">
-                        </div>
-                    </div>
+                   
                     <div class="col-lg-6">
                         <fieldset class="border p-2">
-                            <legend class="w-auto">জের / বাকির বিবরণ</legend>
+                            <legend class="w-auto"> <small> জের / বাকির বিবরণ (যদি থাকে) </small> </legend>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="details" class="form-label">পণ্যের বিবরণ : </label>

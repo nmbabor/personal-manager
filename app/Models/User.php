@@ -20,7 +20,6 @@ class User extends Authenticatable
         'name',
         'email',
         'mobile_no',
-        'country_id',
         'password',
         'username',
         'type',
@@ -28,15 +27,6 @@ class User extends Authenticatable
         'profile_image',
         'is_google_registered',
         'is_suspended',
-        'monthly_amount',
-        'designation',
-        'father_name',
-        'mother_name',
-        'word_no',
-        'permanent_address',
-        'peresent_address',
-        'join_date',
-        'deposit_start_date',
     ];
 
     /**
